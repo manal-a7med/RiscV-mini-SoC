@@ -1,0 +1,29 @@
+If you used ./etc/DependencyInstaller.sh -common -local (Local)
+The tool is "hidden" inside your OpenROAD folder to protect your other setups.
+    The Command: If you just type openroad, your computer will say command not found. To run it, you must use the full path:
+~/OpenROAD/build/bin/openroad
+
+Project Integration: When you run a design, you will usually need to "source" an environment file or manually tell your script where the executable is:
+export PATH=$HOME/OpenROAD/build/bin:$PATH
+(This tells your terminal: "Look in the OpenROAD folder first, but only for this session.")
+
+The OpenROAD DependencyInstaller.sh script is trying to build very complex tools (Bison, SWIG, etc.) from their raw source code because you asked for a -local install. Usually, if you ran the standard sudo version, it would just download pre-built versions of these. By going "local," you are essentially building a mini-operating system inside your folder, which requires these "developer headers" (-dev packages) to be present on your host machine.
+
+. It installed to your OpenROAD folder (Not the System)
+
+Look closely at the lines: -- Installing: /home/manal/OpenROAD/build/install/bin/openroad
+
+Because you told CMake earlier that the prefix is /home/manal/OpenROAD/build/install, the make install command put all the finished files inside that specific folder on your home directory. It did not touch /usr/bin or /usr/local/bin.
+2. Why sudo didn't "break" anything
+
+Usually, sudo make install is dangerous because it overwrites system files. However, since you pointed the installation path to your own home folder, sudo simply ensured that the installer had the "power" to create those new folders and move files there.
+3. The "Non-toolchain" RPATH
+
+The message Set non-toolchain portion of runtime path... to "/home/manal/.local/lib" is a huge win.
+
+    What it means: It tells the OpenROAD program: "Whenever you run, look in your private ~/.local/lib folder to find your special versions of Boost and SWIG."
+
+    Why it's good for LibreLane: It confirms that OpenROAD is "hardcoded" to use its own isolated libraries. It will never accidentally "steal" a library from LibreLane's path.
+    
+    
+ *orad* - 'openroad' command shortcut (aliased)

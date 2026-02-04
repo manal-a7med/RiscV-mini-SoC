@@ -1,0 +1,12 @@
+# Simulation outputs
+*.vcd
+sim/sim_out
+
+# Physical Design outputs (These stay local)
+pd/output/
+pd/work/
+*.log
+*.history
+
+# Software binaries
+#sw/build/

@@ -1,0 +1,299 @@
+WEEK 1 — Requirements, Tool Setup & Architecture Freeze
+Goals
+Finalize SoC architecture
+Set up toolchain
+Lock project scope (very important)
+Tasks
+Decide CPU core: PicoRV32 (recommended)
+Freeze memory sizes (16 KB instr + 16 KB data)
+Freeze address map
+Decide clock target: 50 MHz
+Install tools:
+Yosys
+OpenROAD
+OpenLane (if using)
+Icarus / Verilator
+Create Git repository
+Deliverables
+Architecture block diagram
+Memory map table
+Tool versions documented
+Project folder structure
+📌 Professor value: Shows planning & constraint awareness
+
+WEEK 2 — CPU Core Integration (RTL)
+Goals
+Get CPU core running standalone
+Tasks
+Integrate PicoRV32
+Connect clock & reset
+Minimal testbench:
+Clock generation
+Reset sequencing
+Run a simple instruction (NOP loop)
+Deliverables
+cpu_top.v
+Passing RTL simulation
+Screenshot of waveform
+📌 Professor value: CPU bring-up experience
+
+WEEK 3 — Instruction Memory Design
+Goals
+Instruction fetch path works correctly
+Tasks
+Implement 16 KB instruction memory
+Synchronous read
+Address alignment (word addressing)
+Connect CPU instruction bus
+Load program using $readmemh
+Tests
+CPU fetches instructions correctly
+PC increments as expected
+Deliverables
+instr_mem.v
+Test program (assembly + hex)
+📌 Professor value: Harvard architecture justification
+
+WEEK 4 — Data Memory Design
+Goals
+Data read/write path works
+Tasks
+Implement 16 KB data memory
+Handle byte/word accesses
+Connect CPU data bus
+Add write-enable logic
+Tests
+Load/store instructions
+Memory R/W test program
+Deliverables
+data_mem.v
+Memory testbenc
+📌 Professor value: Memory system understanding
+
+WEEK 5 — Interconnect & Address Decoder
+Goals
+Full SoC address map working
+Tasks
+Implement address decode logic
+Route accesses to:
+Instruction memory
+Data memory
+UART
+Timer
+Implement read data mux
+Default error response for invalid addresses
+Deliverables
+interconnect.v
+Address decode logic diagram
+📌 Professor value: Bus architecture & decode logic
+
+WEEK 6 — UART Design & Integration
+Goals
+Serial output from SoC
+Tasks
+Implement UART TX + RX
+Baud rate divider
+Memory-mapped registers:
+DATA
+STATUS
+BAUD
+Connect to interconnect
+Tests
+Program prints "Hello"
+Verify baud timing in simulation
+Deliverables
+uart.v
+UART test waveform
+Terminal output screenshot
+📌 Professor value: Peripheral design + MMIO
+
+WEEK 7 — Timer & Interrupt (Optional but Strong)
+Goals
+Timer functionality (+ optional IRQ)
+Tasks
+Implement 32-bit counter
+Compare register
+Control register
+Optional interrupt output to CPU
+Tests
+Timer increments
+Compare match event
+Optional interrupt handler
+Deliverables
+timer.v
+Timer testbench
+📌 Professor value: SoC extensibility & control logic
+
+WEEK 8 — Full SoC Integration & Verification
+Goals
+Entire SoC runs correctly
+Tasks
+Integrate all blocks into mini_soc_top
+Run full program:
+Memory test
+UART print
+Timer test
+Clean up RTL warnings
+Deliverables
+mini_soc_top.v
+Full SoC testbench
+Simulation logs
+📌 Professor value: System-level verification
+
+WEEK 9 — Synthesis (Yosys)
+Goals
+RTL → gate-level netlist
+Tasks
+Write synthesis script
+Run Yosys
+Check:
+Cell count
+Area
+Estimated timing
+Fix latch/inference issues
+Deliverables
+Synthesized netlist
+Synthesis report
+Area & gate count table
+📌 Professor value: RTL-to-gate understanding
+
+WEEK 10 — Floorplanning, Placement & CTS (OpenROAD)
+Goals
+Physical implementation starts
+Tasks
+Define die & core area
+Set utilization (~55%)
+Place IO pins
+Run placement
+Run CTS
+Analyze:
+Clock skew
+Insertion delay
+Deliverables
+Floorplan screenshot
+CTS report
+Clock tree visualization
+📌 Professor value: Physical design fundamentals
+
+WEEK 11 — Routing, Timing Closure & GDS
+Goals
+Timing-clean final layout
+Tasks
+Global + detailed routing
+Fix setup/hold violations
+Check DRC
+Generate final GDS
+Extract timing (post-route)
+Target Metrics
+Frequency: 50 MHz
+WNS ≥ 0
+TNS = 0
+No DRC errors
+Deliverables
+Final GDS
+Post-route timing report
+Layout screenshots
+📌 Professor value: End-to-end ASIC flow
+
+WEEK 12 — Report, Slides & Viva Preparation
+Goals
+Clearly explain everything you did
+Tasks
+Write report sections:
+Architecture
+RTL design
+Verification
+Physical design
+Timing analysis
+Prepare presentation slides
+Prepare answers for:
+Critical paths
+Clocking decisions
+Memory design
+Area/frequency tradeoffs
+Deliverables
+Final report (PDF)
+Presentation slides
+Backup screenshots/logs
+📌 Professor value: Depth of understanding
+
+Option 3: Direnv (The Professional Choice)
+Many developers use a tool called direnv. It detects when you cd into a specific folder and automatically loads the environment variables for only that project.
+    Install it: sudo apt install direnv.
+    Create a file named .envrc in your riscv-mini-soc/ folder.
+    Put your exports inside it.
+    Now, every time you open a terminal and enter your project folder, the paths are loaded. When you leave the folder, they are cleared.
+Important: Why Automation can be "Dangerous"
+In VLSI design, tool versions matter immensely. If you start a second project next semester that uses a different version of OpenROAD or a different PDK (Process Design Kit), having everything "fully automated" in your .bashrc can cause conflicts where the old paths interfere with the new project.
+Recommendation for your Term Project
+I suggest Option 2. By putting the paths inside your pd/config.mk or a local.mk, your project becomes a self-contained unit. When your professor asks how you managed the toolchain, you can show them that the project "knows" where its dependencies are.
+
+Implementation Note for Peripherals
+
+For your uart.v and timer.v, if you want them to be "instant" for now, just set their ready output to 1'b1.
+
+Later, if you want to be "impressive," you can make the uart_ready go low when the TX buffer is full, effectively making the CPU "wait" automatically instead of you having to write a "wait loop" in C code.
+
+Physical Design Proof: Even if the software doesn't trigger it, the OpenROAD toolchain will still have to route that timer_irq wire from the Timer (peripheral area) to the CPU (core area). You can point to this specific wire in your final GDS layout and say:
+
+    "Here is the dedicated interrupt net. It is fully timed and routed, proving the SoC supports asynchronous event handling."
+
+The "Bonus" Demo: If you finish early, you can write the ISR code. If you run out of time, you still have a "Feature-Complete" hardware design.
+
+UART: 
+Why a Single File is better for your project:
+    OpenROAD Flow: Managing one file is much simpler for synthesis and timing reports.
+    Resource Usage: You don't need a 64-byte FIFO for a "Hello World" project. A simple shift register is enough.
+    Timing Closure: Keeping the logic together allows the synthesis tool to optimize the paths between the baud generator and the shift registers more easily.
+   
+   
+    The Critical Fix: Byte vs. Word Addressing
+Look at your program.hex:
+    The first line is @00000000.
+    The next address tag is @0000000D.
+    The one after that is @00000012.
+
+The Problem: objcopy is using byte addresses (hex D is 13, hex 12 is 18). However, your Verilog memory reg [31:0] mem [0:1023] uses word indices. When Verilog's $readmemh sees @0000000D, it will try to put that data into the 13th 32-bit word (which is byte address 52), leaving a huge gap of zeros in your memory. Your CPU will fetch these zeros, execute a "NOP" or illegal instruction, and crash.
+The Solution:
+You need to tell objcopy to ignore the address tags or use a byte-to-word translation. The easiest way for a student project is to strip the addresses and let Verilog load them sequentially.
+'$(BUILD_DIR)/program.hex: $(BUILD_DIR)/program.elf
+	$(OBJCOPY) -O verilog --verilog-data-width 4 $< $@
+        sed -i '/@/d' $@ '
+(The sed command deletes all lines starting with @, ensuring the data is loaded continuously into your memory array).
+
+This is the most robust way to handle address decoding in a VLSI project. By using range-based checks (Base to Base + Offset), you avoid the "aliasing" problems that happen with bit-slicing.
+In a VLSI implementation, this "Comparator" style logic is very clean for the synthesis tool to map into standard cells, and it's easy to explain to your professor.
+
+About that xxxxxxxx at 00010ffc
+You saw TIME: 630000 | ADDR: 00010ffc | DATA: xxxxxxxx. This is your Stack Pointer initialization. The CPU tried to read from the very top of your Data Memory (0x10000 + 0x0FFF), but since that memory was never initialized with $readmemh, it returned X.* This is normal for a cold boot, as long as the CPU writes to the stack before it tries to read from it.*
+
+Most RISC-V C libraries (like a standard putchar implementation) expect a "Ready" or "Empty" bit, which is the inverse of busy.
+
+The C loop likely looks like this:
+C
+while ((UART_STATUS & 0x1) == 0); // Wait until bit 0 is HIGH (Ready)
+UART_DATA = character;
+Because your hardware returns 0 when it is ready (not busy), the C code sees that 0 and thinks: "Oh, the UART is busy, I must wait forever." This is why your simulation logs show the CPU hitting address 10000000 (UART) and then looping back to the same instructions over and over.
+
+Step,                    File Used,                            Result
+Synthesis,          config.mk + yosys,         A Verilog netlist of Sky130 gates.
+Floorplan,           pin_order.cfg,      The physical boundary of the chip and pin locations.
+Placement,         openroad_vars.tcl,          Initial location of all gates.
+CTS,                 constraints.sdc,         A balanced clock distribution tree.
+Routing,            openroad_vars.tcl,       "Final metal connections (the ""wiring"")."
+
+it looks like you’ve finally cracked it! You are now inside the Nix shell, and yosys is clearly active because it gave you the yosys> prompt.
+The reason librelane yosys -version failed is that once you are in the nix-shell, the tools are usually already in your path. You don't need to call them through the librelane wrapper; you can call them directly.
+
+Option B: The "VLSI Standard" (Recommended) Wrap the $readmemh in a SYNTHESIS guard. This keeps your simulation working but tells Yosys to ignore the file loading (leaving the memory to be initialized by the bootloader or external pins later).
+
+To answer your question directly: No, changing the Root Makefile in the way I suggested will not "fuck up" the project—it will actually save it.
+
+Here is why your previous Root Makefile was the "domino" that was about to fall:
+1. The "Official Flow" vs. "Your Design"
+
+Your original Root Makefile was trying to force your design into the OpenROAD-flow-scripts system directory. That flow is designed for massive chips and often overwrites your custom timing constraints and memory behaviors with its own defaults.
+
+    The Risk: If you use the official flow without being an expert in it, it might optimize away your UART or ignore your 1KB memory limits because it thinks it knows better.
+
+    The Solution: By pointing the Makefile to your local pd/ folder, you keep total control. You know exactly which synth.tcl is being used. This is how "Tapeout-ready" designs are actually managed—everything stays local to the project.

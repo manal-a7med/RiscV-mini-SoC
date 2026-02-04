@@ -1,0 +1,64 @@
+riscv-mini-soc/
+├── README.md
+|
+├── rtl/
+│   ├── top/
+│   │   └── mini_soc_top.v
+│   ├── cpu/
+│   │   └── picorv32.v
+│   ├── memory/
+│   │   ├── instr_mem.v
+│   │   └── data_mem.v
+│   ├── bus/
+│   │   └── simple_interconnect.v
+│   ├── peripherals/
+│   │   ├── uart.v
+│   │   └── timer.v
+│   └── include/
+│       └── soc_params.vh
+├── sim/
+│   ├── tb/
+│   │   └── tb_mini_soc.sv
+│   ├── programs/
+│   │   ├── hello.c
+│   │   └── timer_test.c
+│   ├── hex/
+│   │   └── program.hex
+│   └── run_sim.sh
+├── sw/
+│   ├── linker.ld
+│   ├── crt0.S
+│   ├── Makefile
+│   └── build/
+├── synth/
+│   ├── yosys/
+│   │   ├── synth.ys
+│   │   └── constraints.sdc
+│   └── reports/
+│       ├── area.rpt
+│       └── timing.rpt
+├── pd/
+│   ├── openroad/
+│   │   ├── floorplan.tcl
+│   │   ├── place.tcl
+│   │   ├── cts.tcl
+│   │   ├── route.tcl
+│   │   └── signoff.tcl
+│   ├── lef/
+│   ├── def/
+│   ├── gds/
+│   └── reports/
+│       ├── post_place_timing.rpt
+│       ├── post_cts_timing.rpt
+│       └── post_route_timing.rpt
+├── scripts/
+│   ├── build_rtl.sh
+│   ├── run_yosys.sh
+│   └── run_openroad.sh
+└── docs/
+    ├── block_diagram.png
+    ├── floorplan.png
+    ├── timing_plots.png
+    └── report/
+        └── final_report.pdf
+

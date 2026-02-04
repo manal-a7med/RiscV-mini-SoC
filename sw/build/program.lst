@@ -1,0 +1,139 @@
+
+build/program.elf:     file format elf32-littleriscv
+
+
+Disassembly of section .text:
+
+00000000 <_start>:
+   0:	00010137          	lui	sp,0x10
+   4:	40010113          	addi	sp,sp,1024 # 10400 <main+0x10390>
+   8:	068000ef          	jal	70 <main>
+
+0000000c <_hang>:
+   c:	0000006f          	j	c <_hang>
+
+00000010 <uart_putc>:
+  10:	10000737          	lui	a4,0x10000
+  14:	3e900793          	li	a5,1001
+  18:	00470713          	addi	a4,a4,4 # 10000004 <main+0xfffff94>
+  1c:	00072683          	lw	a3,0(a4)
+  20:	0016f693          	andi	a3,a3,1
+  24:	00069663          	bnez	a3,30 <uart_putc+0x20>
+  28:	fff78793          	addi	a5,a5,-1
+  2c:	fe0798e3          	bnez	a5,1c <uart_putc+0xc>
+  30:	100007b7          	lui	a5,0x10000
+  34:	00a7a023          	sw	a0,0(a5) # 10000000 <main+0xfffff90>
+  38:	00008067          	ret
+
+0000003c <print>:
+  3c:	ff010113          	addi	sp,sp,-16
+  40:	00812423          	sw	s0,8(sp)
+  44:	00112623          	sw	ra,12(sp)
+  48:	00050413          	mv	s0,a0
+  4c:	00044503          	lbu	a0,0(s0)
+  50:	00051a63          	bnez	a0,64 <print+0x28>
+  54:	00c12083          	lw	ra,12(sp)
+  58:	00812403          	lw	s0,8(sp)
+  5c:	01010113          	addi	sp,sp,16
+  60:	00008067          	ret
+  64:	00140413          	addi	s0,s0,1
+  68:	fa9ff0ef          	jal	10 <uart_putc>
+  6c:	fe1ff06f          	j	4c <print+0x10>
+
+00000070 <main>:
+  70:	100017b7          	lui	a5,0x10001
+  74:	0007a783          	lw	a5,0(a5) # 10001000 <main+0x10000f90>
+  78:	fe010113          	addi	sp,sp,-32
+  7c:	0d400513          	li	a0,212
+  80:	00f12623          	sw	a5,12(sp)
+  84:	00112e23          	sw	ra,28(sp)
+  88:	fb5ff0ef          	jal	3c <print>
+  8c:	deadc7b7          	lui	a5,0xdeadc
+  90:	00010737          	lui	a4,0x10
+  94:	eef78793          	addi	a5,a5,-273 # deadbeef <main+0xdeadbe7f>
+  98:	10f72023          	sw	a5,256(a4) # 10100 <main+0x10090>
+  9c:	10070713          	addi	a4,a4,256
+  a0:	00072703          	lw	a4,0(a4)
+  a4:	02f71463          	bne	a4,a5,cc <main+0x5c>
+  a8:	0e800513          	li	a0,232
+  ac:	f91ff0ef          	jal	3c <print>
+  b0:	100017b7          	lui	a5,0x10001
+  b4:	0007a703          	lw	a4,0(a5) # 10001000 <main+0x10000f90>
+  b8:	00c12783          	lw	a5,12(sp)
+  bc:	00e7f663          	bgeu	a5,a4,c8 <main+0x58>
+  c0:	11000513          	li	a0,272
+  c4:	f79ff0ef          	jal	3c <print>
+  c8:	0000006f          	j	c8 <main+0x58>
+  cc:	0fc00513          	li	a0,252
+  d0:	fddff06f          	j	ac <main+0x3c>
+
+Disassembly of section .rodata:
+
+000000d4 <.rodata>:
+  d4:	6556                	.insn	2, 0x6556
+  d6:	6972                	.insn	2, 0x6972
+  d8:	7966                	.insn	2, 0x7966
+  da:	6e69                	.insn	2, 0x6e69
+  dc:	6f532067          	.insn	4, 0x6f532067
+  e0:	2e2e2e43          	.insn	4, 0x2e2e2e43
+  e4:	000a                	.insn	2, 0x000a
+  e6:	0000                	.insn	2, 0x
+  e8:	4152                	.insn	2, 0x4152
+  ea:	204d                	.insn	2, 0x204d
+  ec:	614d                	.insn	2, 0x614d
+  ee:	3a6f7263          	bgeu	t5,t1,492 <main+0x422>
+  f2:	5020                	.insn	2, 0x5020
+  f4:	5341                	.insn	2, 0x5341
+  f6:	00000a53          	.insn	4, 0x0a53
+  fa:	0000                	.insn	2, 0x
+  fc:	4152                	.insn	2, 0x4152
+  fe:	204d                	.insn	2, 0x204d
+ 100:	614d                	.insn	2, 0x614d
+ 102:	3a6f7263          	bgeu	t5,t1,4a6 <main+0x436>
+ 106:	4620                	.insn	2, 0x4620
+ 108:	4941                	.insn	2, 0x4941
+ 10a:	0a4c                	.insn	2, 0x0a4c
+ 10c:	0000                	.insn	2, 0x
+ 10e:	0000                	.insn	2, 0x
+ 110:	6954                	.insn	2, 0x6954
+ 112:	656d                	.insn	2, 0x656d
+ 114:	3a72                	.insn	2, 0x3a72
+ 116:	5020                	.insn	2, 0x5020
+ 118:	5341                	.insn	2, 0x5341
+ 11a:	Address 0x11a is out of bounds.
+
+
+Disassembly of section .riscv.attributes:
+
+00000000 <.riscv.attributes>:
+   0:	1b41                	.insn	2, 0x1b41
+   2:	0000                	.insn	2, 0x
+   4:	7200                	.insn	2, 0x7200
+   6:	7369                	.insn	2, 0x7369
+   8:	01007663          	bgeu	zero,a6,14 <uart_putc+0x4>
+   c:	0011                	.insn	2, 0x0011
+   e:	0000                	.insn	2, 0x
+  10:	1004                	.insn	2, 0x1004
+  12:	7205                	.insn	2, 0x7205
+  14:	3376                	.insn	2, 0x3376
+  16:	6932                	.insn	2, 0x6932
+  18:	7032                	.insn	2, 0x7032
+  1a:	0031                	.insn	2, 0x0031
+
+Disassembly of section .comment:
+
+00000000 <.comment>:
+   0:	3a434347          	.insn	4, 0x3a434347
+   4:	2820                	.insn	2, 0x2820
+   6:	3331                	.insn	2, 0x3331
+   8:	322e                	.insn	2, 0x322e
+   a:	302e                	.insn	2, 0x302e
+   c:	312d                	.insn	2, 0x312d
+   e:	7531                	.insn	2, 0x7531
+  10:	7562                	.insn	2, 0x7562
+  12:	746e                	.insn	2, 0x746e
+  14:	3175                	.insn	2, 0x3175
+  16:	2932312b          	.insn	4, 0x2932312b
+  1a:	3120                	.insn	2, 0x3120
+  1c:	2e322e33          	.insn	4, 0x2e322e33
+  20:	0030                	.insn	2, 0x0030

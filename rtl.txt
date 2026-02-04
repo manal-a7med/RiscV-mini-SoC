@@ -1,0 +1,762 @@
+ `include "soc_param.vh"
+
+
+module timer_periph (
+
+input wire clk,
+
+input wire reset_n,
+
+// Bus Interface
+
+input wire [31:0] addr,
+
+input wire [31:0] wdata,
+
+input wire we,
+
+output reg [31:0] rdata,
+
+output wire ready,
+
+// Interrupt Output
+
+output reg irq
+
+);
+
+
+// Register offsets
+
+// 0x0: COUNT (Read only or Read/Write)
+
+// 0x4: COMPARE (Read/Write)
+
+// 0x8: CTRL (Write 1 to clear IRQ)
+
+
+reg [31:0] count_reg;
+
+reg [31:0] compare_reg;
+
+// Timer is always ready (zero wait states)
+
+assign ready = 1'b1;
+
+
+// --- 1. Counter Logic ---
+
+always @(posedge clk) begin
+
+if (!reset_n) begin
+
+count_reg <= 32'h0;
+
+end else begin
+
+count_reg <= count_reg + 1'b1;
+
+end
+
+end
+
+
+// --- 2. Register Write/IRQ Logic ---
+
+always @(posedge clk) begin
+
+if (!reset_n) begin
+
+compare_reg <= 32'hFFFF_FFFF;
+
+irq <= 1'b0;
+
+end else begin
+
+// 1. Check for Register Writes
+
+if (we && timer_sel) begin
+
+if (addr[3:0] == 4'h4) compare_reg <= wdata;
+
+if (addr[3:0] == 4'h8) irq <= 1'b0; // Software Clear
+
+end
+
+// 2. Check for Match (Set IRQ)
+
+// We use 'else if' or a specific priority to prevent logic loops
+
+else if (count_reg == compare_reg) begin
+
+irq <= 1'b1;
+
+end
+
+end
+
+end
+
+
+// --- 3. Register Read Logic ---
+
+wire timer_sel = (addr[31:16] == 16'h1000) && (addr[15:12] == 4'h1); // 0x1000_1xxx
+
+
+always @(*) begin
+
+rdata = 32'h0; // CRITICAL: Default driver for synthesis
+
+if (timer_sel) begin
+
+case (addr[3:0])
+
+4'h0: rdata = count_reg;
+
+4'h4: rdata = compare_reg;
+
+4'h8: rdata = {31'b0, irq};
+
+default: rdata = 32'h0;
+
+endcase
+
+end
+
+end
+
+
+endmodule
+
+
+module uart_periph (
+
+input wire clk,
+
+input wire reset_n,
+
+input wire [31:0] addr,
+
+input wire [31:0] wdata,
+
+input wire we,
+
+output reg [31:0] rdata,
+
+output wire ready,
+
+output reg tx,
+
+input wire rx
+
+);
+
+
+parameter CLK_FREQ = 50000000;
+
+parameter BAUD = 115200;
+
+localparam DIVIDER = CLK_FREQ / BAUD;
+
+
+reg [15:0] baud_counter;
+
+// Tick should trigger at DIVIDER-1 to maintain correct period
+
+wire baud_tick = (baud_counter == DIVIDER - 1);
+
+
+always @(posedge clk) begin
+
+if (!reset_n || baud_tick) baud_counter <= 0;
+
+else baud_counter <= baud_counter + 1'b1;
+
+end
+
+
+reg [3:0] tx_state;
+
+reg [7:0] tx_data;
+
+reg [3:0] bit_idx;
+
+wire tx_busy = (tx_state != 0);
+
+
+assign ready = !tx_busy;
+
+
+always @(posedge clk) begin
+
+if (!reset_n) begin
+
+tx <= 1'b1;
+
+tx_state <= 0;
+
+bit_idx <= 0;
+
+tx_data <= 8'h0;
+
+end else begin
+
+// Start sending ONLY on a baud_tick or use a divider for the start bit too
+
+if (we && !tx_busy) begin
+
+tx_data <= wdata[7:0];
+
+tx_state <= 1;
+
+tx <= 0; // Start bit
+
+bit_idx <= 0;
+
+baud_counter <= 0; // Reset counter to ensure full start bit width
+
+end else if (tx_busy && baud_tick) begin
+
+case (tx_state)
+
+1: begin
+
+tx <= tx_data[bit_idx];
+
+if (bit_idx == 7) tx_state <= 2;
+
+else bit_idx <= bit_idx + 1'b1;
+
+end
+
+2: begin
+
+tx <= 1'b1; // Stop bit
+
+tx_state <= 0;
+
+end
+
+endcase
+
+end
+
+end
+
+end
+
+
+// --- 3. Bus Read Logic (Safety Update) ---
+
+// Use the top bits to ensure we only drive rdata if we are being addressed
+
+// This removes "No Driver" or "Multiple Driver" warnings in the top module
+
+wire uart_sel = (addr[31:16] == 16'h1000);
+
+
+always @(*) begin
+
+rdata = 32'h0; // STUB DEFAULT - This solves the "No Driver" warning
+
+if (uart_sel) begin
+
+case (addr[3:0])
+
+4'h0: rdata = {24'b0, tx_data}; // Optional: read back last sent byte
+
+4'h4: rdata = {31'b0, !tx_busy}; // Status
+
+default: rdata = 32'h0;
+
+endcase
+
+end
+
+end
+
+
+endmodule
+
+
+// rtl/memory/data_mem.v
+
+module data_mem (
+
+input clk,
+
+input [31:0] addr,
+
+input [31:0] wdata,
+
+input [3:0] wstrb, // Byte mask
+
+output reg [31:0] rdata
+
+);
+
+// 255 entries of 32-bits each = 4KB
+
+reg [31:0] mem [0:255];
+
+
+// Logic to handle 10-bit addressing (4KB range)
+
+wire [7:0] word_addr = addr[9:2];
+
+
+always @(posedge clk) begin
+
+if (wstrb[0]) mem[word_addr][7:0] <= wdata[7:0];
+
+if (wstrb[1]) mem[word_addr][15:8] <= wdata[15:8];
+
+if (wstrb[2]) mem[word_addr][23:16] <= wdata[23:16];
+
+if (wstrb[3]) mem[word_addr][31:24] <= wdata[31:24];
+
+rdata <= mem[word_addr];
+
+end
+
+endmodule
+
+
+module instr_mem (
+
+input wire clk,
+
+input wire [31:0] addr,
+
+output reg [31:0] rdata
+
+);
+
+// 256 words = 1KB (Index 0 to 255)
+
+reg [31:0] mem [0:255];
+
+
+// 8 bits are enough to address 256 words (2^8 = 256)
+
+// We use addr[9:2] because addr[1:0] are byte-offsets
+
+wire [7:0] word_addr = addr[9:2];
+
+
+initial begin
+
+`ifndef SYNTHESIS
+
+$readmemh("sw/build/program.hex", mem);
+
+if (mem[0] === 32'hx) begin
+
+$display("ERROR: Instruction memory failed to load hex file!");
+
+end else begin
+
+$display("SUCCESS: Instruction memory loaded. First instr: %h", mem[0]);
+
+end
+
+`else
+
+integer i;
+
+for (i = 0; i < 256; i = i + 1) begin // Changed to 256 to cover index 255
+
+mem[i] = 32'h0;
+
+end
+
+`endif
+
+end
+
+
+always @(posedge clk) begin
+
+rdata <= mem[word_addr]; // Use the 8-bit wire here
+
+end
+
+endmodule
+
+
+`include "soc_param.vh"
+
+
+module mini_soc_top (
+
+input wire clk,
+
+input wire reset_n,
+
+// UART Physical Pins
+
+output wire uart_tx,
+
+input wire uart_rx,
+
+
+// Status Pin
+
+output wire trap
+
+);
+
+
+// --- Internal Wires: CPU <-> Interconnect ---
+
+wire [31:0] cpu_addr;
+
+wire [31:0] cpu_wdata;
+
+wire [3:0] cpu_wstrb;
+
+wire [31:0] cpu_rdata;
+
+wire cpu_valid;
+
+wire cpu_ready;
+
+wire cpu_instr;
+
+
+// --- Internal Wires: Interconnect <-> Peripherals ---
+
+wire [31:0] imem_addr, imem_rdata;
+
+wire [31:0] dmem_addr, dmem_wdata, dmem_rdata;
+
+wire [3:0] dmem_wstrb;
+
+wire [31:0] uart_addr, uart_wdata, uart_rdata;
+
+wire uart_we, uart_ready;
+
+wire [31:0] timer_addr, timer_wdata, timer_rdata;
+
+wire timer_we, timer_ready;
+
+wire timer_irq; // The "Provisioned" Interrupt Line
+
+
+// --- 1. CPU Instance (PicoRV32) ---
+
+picorv32 #(
+
+.ENABLE_IRQ(1),
+
+.PROGADDR_RESET(32'h0000_0000), // Start at Instr Mem
+
+.STACKADDR(32'h0001_1000) // Top of 4KB Data Mem
+
+) cpu_inst (
+
+.clk (clk),
+
+.resetn (reset_n),
+
+.trap (trap),
+
+.mem_valid(cpu_valid),
+
+.mem_instr(cpu_instr),
+
+.mem_ready(cpu_ready),
+
+.mem_addr (cpu_addr),
+
+.mem_wdata(cpu_wdata),
+
+.mem_wstrb(cpu_wstrb),
+
+.mem_rdata(cpu_rdata),
+
+// Connect Timer IRQ to bit 1 as discussed
+
+.irq ({30'b0, timer_irq, 1'b0})
+
+);
+
+
+// --- 2. Interconnect Instance ---
+
+simple_interconnect bus_inst (
+
+.clk(clk), .reset_n(reset_n),
+
+.cpu_addr(cpu_addr), .cpu_wdata(cpu_wdata), .cpu_wstrb(cpu_wstrb),
+
+.cpu_valid(cpu_valid), .cpu_rdata(cpu_rdata), .cpu_ready(cpu_ready),
+
+.imem_addr(imem_addr), .imem_rdata(imem_rdata),
+
+.dmem_addr(dmem_addr), .dmem_wdata(dmem_wdata), .dmem_wstrb(dmem_wstrb),
+
+.dmem_rdata(dmem_rdata),
+
+.uart_addr(uart_addr), .uart_wdata(uart_wdata), .uart_we(uart_we),
+
+.uart_rdata(uart_rdata), .uart_ready(uart_ready),
+
+.timer_addr(timer_addr), .timer_wdata(timer_wdata), .timer_we(timer_we),
+
+.timer_rdata(timer_rdata), .timer_ready(timer_ready)
+
+);
+
+
+// --- 3. Memory & Peripheral Instances ---
+
+instr_mem imem_inst (
+
+.clk(clk), .addr(imem_addr), .rdata(imem_rdata)
+
+);
+
+
+data_mem dmem_inst (
+
+.clk(clk), .addr(dmem_addr), .wdata(dmem_wdata),
+
+.wstrb(dmem_wstrb), .rdata(dmem_rdata)
+
+);
+
+
+uart_periph uart_inst (
+
+.clk(clk), .reset_n(reset_n),
+
+.addr(uart_addr), .wdata(uart_wdata), .we(uart_we),
+
+.rdata(uart_rdata), .ready(uart_ready), .tx(uart_tx), .rx(uart_rx)
+
+);
+
+
+timer_periph timer_inst (
+
+.clk(clk), .reset_n(reset_n),
+
+.addr(timer_addr), .wdata(timer_wdata), .we(timer_we),
+
+.rdata(timer_rdata), .ready(timer_ready), .irq(timer_irq)
+
+);
+
+
+endmodule
+
+
+`include "soc_param.vh"
+
+
+module simple_interconnect (
+
+// ... (Your existing IO ports remain exactly the same)
+
+input wire clk,
+
+input wire reset_n,
+
+input wire [31:0] cpu_addr,
+
+input wire [31:0] cpu_wdata,
+
+input wire [3:0] cpu_wstrb,
+
+input wire cpu_valid,
+
+output reg [31:0] cpu_rdata,
+
+output reg cpu_ready,
+
+output wire [31:0] imem_addr,
+
+input wire [31:0] imem_rdata,
+
+output wire [31:0] dmem_addr,
+
+output wire [31:0] dmem_wdata,
+
+output wire [3:0] dmem_wstrb,
+
+input wire [31:0] dmem_rdata,
+
+output wire [31:0] uart_addr,
+
+output wire [31:0] uart_wdata,
+
+output wire uart_we,
+
+input wire [31:0] uart_rdata,
+
+input wire uart_ready,
+
+output wire [31:0] timer_addr,
+
+output wire [31:0] timer_wdata,
+
+output wire timer_we,
+
+input wire [31:0] timer_rdata,
+
+input wire timer_ready
+
+);
+
+
+// --- 1. Address Decoding Logic ---
+
+// Using 0x3FF (1023) for 1KB range
+
+wire is_imem = (cpu_addr >= `MEM_INST_BASE) && (cpu_addr <= (`MEM_INST_BASE + 32'h0000_03FF));
+
+wire is_dmem = (cpu_addr >= `MEM_DATA_BASE) && (cpu_addr <= (`MEM_DATA_BASE + 32'h0000_03FF));
+
+wire is_uart = (cpu_addr >= `UART_BASE) && (cpu_addr <= (`UART_BASE + 32'h0000_000F));
+
+wire is_timer = (cpu_addr >= `TIMER_BASE) && (cpu_addr <= (`TIMER_BASE + 32'h0000_000F));
+
+
+// --- NEW: Ready Delay Logic ---
+
+// This creates the 1-cycle wait required for synchronous memory
+
+reg ready_delayed;
+
+
+always @(posedge clk or negedge reset_n) begin
+
+if (!reset_n)
+
+ready_delayed <= 1'b0;
+
+else
+
+ready_delayed <= cpu_valid;
+
+end
+
+
+// --- 2. Peripheral Chip Selects ---
+
+assign imem_addr = cpu_addr;
+
+assign dmem_addr = cpu_addr;
+
+assign dmem_wdata = cpu_wdata;
+
+assign dmem_wstrb = is_dmem ? cpu_wstrb : 4'b0000;
+
+assign uart_addr = cpu_addr;
+
+assign uart_wdata = cpu_wdata;
+
+assign uart_we = is_uart && (|cpu_wstrb);
+
+assign timer_addr = cpu_addr;
+
+assign timer_wdata = cpu_wdata;
+
+assign timer_we = is_timer && (|cpu_wstrb);
+
+
+// --- 3. Read Data Multiplexer ---
+
+always @(*) begin
+
+cpu_rdata = 32'h0000_0000; // Explicit default driver
+
+if (is_imem) cpu_rdata = imem_rdata;
+
+else if (is_dmem) cpu_rdata = dmem_rdata;
+
+else if (is_uart) cpu_rdata = uart_rdata;
+
+else if (is_timer) cpu_rdata = timer_rdata;
+
+end
+
+
+// --- 4. Updated 'Wait' / Ready Handshake ---
+
+always @(*) begin
+
+cpu_ready = 1'b0; // Explicit default driver
+
+if (!cpu_valid) begin
+
+cpu_ready = 1'b0;
+
+end else begin
+
+case (1'b1)
+
+// We use ready_delayed here to give memory 1 cycle to respond
+
+is_imem: cpu_ready = ready_delayed;
+
+is_dmem: cpu_ready = ready_delayed;
+
+is_uart: cpu_ready = uart_ready;
+
+is_timer: cpu_ready = timer_ready;
+
+default: cpu_ready = 1'b1;
+
+endcase
+
+end
+
+end
+
+
+`ifndef SYNTHESIS
+
+always @(posedge clk) begin
+
+if (cpu_valid && cpu_ready) begin
+
+$display("TIME: %t | ADDR: %h | DATA: %h", $time, cpu_addr, cpu_rdata);
+
+end
+
+end
+
+`endif
+
+
+
+endmodule
+
+
+// rtl/include/soc_params.vh
+
+
+// 4KB = 0x1000 bytes
+
+`define MEM_INST_BASE 32'h0000_0000
+
+`define MEM_INST_LIMIT 32'h0000_0FFF
+
+
+`define MEM_DATA_BASE 32'h0001_0000
+
+`define MEM_DATA_LIMIT 32'h0001_0FFF
+
+
+// Peripheral addresses remain the same
+
+`define UART_BASE 32'h1000_0000
+
+`define TIMER_BASE 32'h1000_1000
+
+
+// Clock Info
+
+`define CPU_FREQ_MHZ 50 

@@ -1,0 +1,156 @@
+I am doing a term project for my vlsi course and the idea i proposed is:
+"Design and Physical Implementation of a Lightweight RISC-V SoC Using OpenROAD Toolchain"
+
+                 ┌──────────────┐
+                 │    RV32I     │
+                 │   CPU Core   │  (PicoRV32 / Ibex)
+                 └──────┬───────┘
+                        │
+               ┌────────▼────────┐
+               │ Simple Interconnect│
+               │ (Addr Decode Bus) │
+               └──┬──────┬──────┬─┘
+                  │      │      │
+        ┌─────────▼─┐ ┌──▼───┐ ┌▼────────┐
+        │ Instr Mem │     │ UART │ │  Timer  │ 
+        └───────────┘ └──────┘ └─────────┘
+                  │
+            ┌─────▼─────┐
+            │ Data Mem  │
+            └───────────┘
+What the professor cares about:
+You ran synthesis, PnR, CTS, routing
+You integrated multiple blocks
+You produced clean GDS
+You understand timing & layout decisions basically understand each and every minor and major aspect of everything that is involved.
+
+I am planning to achieve >50 MHz clock frequency
+
+
+| Instruction Memory | 16 KB          | ROM or inferred SRAM |
+| Data Memory        | 16 KB          | Read/write           |
+| Addressing         | Byte-addressed |                      |
+UART:
+TX + RX, Memory-mapped registers, Baud rate divider (simple)
+Timer:32-bit counter, Compare register, Interrupt output (optional but nice)
+
+memory map:
+0x0000_0000 – 0x0000_3FFF : Instruction Memory (16 KB)
+0x0001_0000 – 0x0001_3FFF : Data Memory (16 KB)
+
+0x1000_0000 : UART DATA
+0x1000_0004 : UART STATUS
+0x1000_0008 : UART BAUD
+
+0x1000_1000 : TIMER COUNT
+0x1000_1004 : TIMER COMPARE
+0x1000_1008 : TIMER CTRL
+
+u may suggest or pointout any improvements
+
+mini_soc_top
+│
+├── clk_gen / reset_sync
+│
+├── cpu_core (PicoRV32)
+│
+├── interconnect
+│   ├── addr_decode
+│   └── data_mux
+│
+├── instr_mem :read-only, synchronous
+├── data_mem :read/write, synchronous
+│
+├── uart
+└── timer
+
+“We chose Harvard-style separation to reduce memory access contention and simplify timing closure.”
+
+it must be fully sysntesizable
+
+ [ -X- IMPROVEMENTS -X- ]
+Add a WAIT / READY Handshake (Optional but Impressive)
+Internally, you can just tie mem_ready = 1'b1.
+
+Why this is powerful:
+Shows scalability
+Lets you explain how wait states affect timing
+Makes bus design more realistic
+
+Add One Interrupt (Timer → CPU)
+Even a single interrupt line from Timer is gold.
+Timer raises irq_timer
+PicoRV32 supports IRQ
+You don’t even need full interrupt nesting
+
+Clock Gating (Optional, If Time Permits)
+Add very simple clock gating for:
+UART & Timer
+
+You should implement address decode using mask & compare, not long if-else chains (better timing).
+
+
+Optional Further Upgrade : 
+Use synthesized IMEM
+Use OpenRAM for DMEM
+
+Likely critical paths:
+1.CPU → Interconnect → Data Memory → CPU
+2.Instruction fetch path
+3.Register file read → ALU → writeback
+You must be able to say:
+“The critical path is dominated by memory access and address decode logic.”
+
+[ -X- END IMPROVS. -X- ]
+
+Functional Verification:
+Tests to run:
+CPU boots and executes program
+UART prints "Hello"
+Timer increments correctly
+Memory read/write test
+
+| Metric           | Target                     |
+| ---------------- | -------------------------- |
+| WNS              | ≥ 0 ns (or ≥ –0.05 ns max) |
+| TNS              | 0                          |
+| Setup violations | 0                          |
+| Hold violations  | 0                          |
+| Max transition   | Within limits              |
+| Max cap          | Within limits              |
+
+| Block                   | Area (approx)   |
+| ----------------------- | --------------- |
+| PicoRV32                | 0.15 – 0.25 mm² |
+| Instruction Mem (16 KB) | 0.10 – 0.15 mm² |
+| Data Mem (16 KB)        | 0.10 – 0.15 mm² |
+| UART + Timer            | < 0.02 mm²      |
+| Interconnect            | negligible      |
+
+CORE AREA UTILIZATION ~0.4 – 0.6 mm²
+GATE COUNT: ~25k – 40k gates
+
+7. OpenROAD Flow (What You MUST Show)
+
+Explicitly run and show results for:
+Yosys synthesis
+Cell count
+Area
+Timing estimate
+Floorplanning
+Core utilization (start with 50–60%)
+Aspect ratio ~1:1
+IO pin placement
+Placement
+Congestion report
+HPWL
+CTS
+Clock tree depth
+Skew (<200 ps ideal)
+Insertion delay
+Routing
+DRC clean
+Antenna fixes (if any)
+Final GDS
+Screenshot
+LVS/DRC clean (if supported)

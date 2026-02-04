@@ -1,0 +1,73 @@
+Milestones
+1:
+Have full functional verification! If you look closely at your terminal output, you can actually see the "Hello World" characters hidden in the data being fetched. For example, at time 930000, the CPU fetches data from ADDR: 00000048 which is 6c6c6548. In ASCII (Little Endian), that is "Hell". Later, you see 4952206f ("o RI") and 562d4353 ("SC-V").
+The most important part is the ADDR: 10000000. This shows your CPU is successfully hitting the UART Base Address to send those characters. The simulation timed out because the CPU finished printing and entered the while(1) loop, just as intended.
+The Final Hardware Hurdle: Timing Constraints
+Now that the logic is 100% proven, we need to prepare for OpenROAD. The most critical file for Physical Design is the .sdc (Synopsys Design Constraints) file. This tells the ASIC tools:
+    The Clock Speed: 50MHz (20ns period).
+    Input/Output Delays: How much time signals have to get on and off the chip.
+    Uncertainty: A "safety margin" for clock jitter.
+    
+     Looking at the data, we can verify that the CPU is behaving exactly as a RISC-V processor should during a boot sequence.
+    
+Here is the step-by-step verification of your execution trace:
+1. Boot & Stack Setup
+    Time 170000: First instruction 00011137 is lui x2, 0x11. This initializes the upper bits of the Stack Pointer (sp).
+    Time 630000: Notice the address 00010ffc. The CPU is trying to push data onto the stack (at the very top of your 4KB Data Mem)
+    The xxxxxxxx: This is normal. It's a read-modify-write or a check of an uninitialized memory location. Since the CPU didn't trap, it handled it.
+
+2. The String "Hello RISC-V World"
+We can see the CPU fetching the string from the instruction memory (likely stored as constants in the .rodata section):
+    ADDR 00000048: 6c6c6548 → ASCII "Hell"
+    ADDR 0000004c: 4952206f → ASCII "o RI"
+    ADDR 00000050: 562d4353 → ASCII "SC-V"
+    ADDR 00000054: 726f5720 → ASCII " Wor"
+
+3. The UART Handshake (The Loop)
+This is the most important part of your log. Look at the interaction with address 10000000:
+    TIME 1270000: CPU reads 10000000 and gets DATA: 00000001.
+    Pattern: It then jumps back to 0000001c, runs a few instructions, and checks 10000000 again much later (e.g., TIME 78410000).
+
+Verification: Because DATA is now 00000001 (instead of 0 like your previous run), the CPU finally thinks the UART is Ready. However, because the UART takes so long to "send" a bit in real-time (due to the DIVIDER), the CPU is spending millions of cycles waiting for that 1 to appear again or for the transmit to clear.
+Summary of Status
+    CPU: PASS. It is correctly executing instructions, jumping to subroutines, and calculating stack offsets.
+    Interconnect: PASS. It is correctly routing addresses to 0x0000 (IMEM), 0x0001 (DMEM), and 0x1000 (UART).
+    UART: ACTIVE. It is returning a "Ready" status (1), but it is simulating at real-world speeds (115200 baud), which is why you see such massive gaps in time between successful UART checks.
+    	
+The most important thing you achieved HERE was fixing the Synchronous Ready Handshake. Without that 1-cycle delay, your SoC would never have progressed past the first instruction.
+
+Timer ends at 0000C350 = 50000 = 50KHz clock frequency
+
+Verification of the Waveform
+The waveform confirms several critical aspects of your design are working correctly:
+    Boot Sequence: The cpu_addr starts at 00000000 and correctly increments to 00000004, 00000034, and beyond
+    Instruction Fetch: The cpu_rdata is returning the exact hex values from your compiled program. For example, you can see 00011137 (the lui sp instruction) being fetched at address 0.
+    Stack Initialization: At roughly 400ns, the CPU performs a write to data memory (dmem_wdata) at an address near the top of your 4KB RAM, which matches your stack pointer initialization.
+    UART Activity: Most importantly, you can see uart_we (Write Enable) pulsing high and data appearing on uart_wdata. The value 00000048 appearing on the bus corresponds to the ASCII character 'H', which is the first letter of "Hello".
+    
+Why is dmem_rdata showing 'x' (Don't Care)?
+In your simulation, dmem_rdata appears as red 'x' because of how the Verilog memory array is handled during a Write Cycle or an Idle Cycle:
+    Uninitialized Memory: Since you are using $readmemh for the instruction memory but likely not for the data memory, the initial state of the data RAM is "undefined" (x).
+    Write-Only Cycles: In your waveform, the CPU is currently performing writes to the stack or UART. During a write, the memory's read output typically holds its previous state or becomes undefined depending on your data_mem.v implementation.
+  Simulation Artifact: Because you haven't read from an address that has been previously written to, the simulator has no "valid" data to drive onto the dmem_rdata bus, so it displays 'x'.
+  
+  Instruction Fetching: The log shows the CPU correctly fetching opcodes from the 000000xx range.
+Memory Handshake: Since the addresses are incrementing and the CPU isn't trapping, your ready_delayed logic is working perfectly. The CPU is waiting for the synchronous memory to respond.
+Peripheral Access: You can see the CPU writing to ADDR: 10000000 (your UART Base). This confirms your Address Decoder in the interconnect is correctly identifying peripheral hits.
+Data Persistence: At time 630000, the CPU accessed 00010ffc (Data Memory). This shows your stack pointer or data storage is functional.
+
+GRAFANA
+
+1. The Signals to Check in GTKWave
+Since you can't see "inside" the macro, look at the "pins" of the wrapper in the uut/dmem_inst hierarchy:
+    wstrb[3:0]: Look for the moment this hits 4'hf (all ones). This is the 32-bit write to 0xDEADBEEF.
+    wdata[31:0]: At the same time wstrb is f, this signal must show DEADBEEF.
+    addr[31:0]: This should be 00010100.
+    rdata[31:0]: Look at the next time the addr is 00010100 and wstrb is 0. If rdata shows DEADBEEF on the following clock cycle, the macro is perfect.
+    
+    Final Verification Sign-off
+If your terminal output shows 'P' and your GTKWave shows DEADBEEF appearing on the rdata bus when the CPU reads from address 0x10100, your RTL Verification is officially COMPLETED.
+Summary of your success:
+    PicoRV32: Correctly executing branches (if statements).
+    Interconnect: Correctly routing between UART (10000000) and RAM (00010100).
+    SRAM Macro: Successfully storing 32-bit values and returning them with 1-cycle latency

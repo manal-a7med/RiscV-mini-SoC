@@ -1,0 +1,48 @@
+riscv-mini-soc/
+├── README.md               # Overview, build instructions, and tool versions
+├── setup_env.sh            # Script to export OPENROAD_FLOW_ROOT and PATHs
+│
+├── rtl/                    # Hardware Description Files (Verilog)
+│   ├── rtl_filelist.f      # CENTRAL FILE: List of all relative paths to .v files
+│   ├── top/
+│   │   └── mini_soc_top.v  # Top-level module (Instantiates CPU + Bus + Peripherals)
+│   ├── cpu/
+│   │   └── picorv32.v      # The RISC-V Core
+│   ├── bus/
+│   │   └── simple_interconnect.v # Address decoder and mux logic
+│   ├── memory/
+│   │   ├── instr_mem.v     # ROM-like behavior (Read-only for instructions)
+│   │   └── data_mem.v      # RAM behavior (Read/Write for variables)
+│   ├── peripherals/
+│   │   ├── uart.v          # UART TX/RX logic
+│   │   └── timer.v         # 32-bit counter and compare logic
+│   └── include/
+│       └── soc_params.vh   # Shared Verilog macros (e.g., Clock frequency, Base addresses)
+│
+├── sw/                     # Software (C and Assembly to run on your RISC-V)
+│   ├── inc/
+│   │   └── soc_regs.h      # C header defining peripheral addresses (e.g., UART_BASE 0x10000000)
+│   ├── programs/
+│   │   ├── hello_world.c   # Main test code
+│   │   └── boot.S          # Assembly startup code (Initializes stack pointer)
+│   ├── linker.ld           # Custom linker script matching your 16KB/16KB memory map
+│   └── Makefile            # Compiles C code into .elf, .bin, and .hex
+│
+├── sim/                    # Functional Verification
+│   ├── tb/
+│   │   └── tb_mini_soc.sv  # SystemVerilog testbench
+│   ├── hex/
+│   │   └── program.hex     # Compiled software output (Loaded into instr_mem.v)
+│   └── run_sim.sh          # Script to run Icarus Verilog or Verilator
+│
+├── pd/                     # Physical Design (The OpenROAD core)
+│   ├── config.mk           # THE BRAIN: Defines DESIGN_NAME, CLK_PERIOD, and RTL paths
+│   ├── constraints.sdc     # Timing constraints (Defines 50MHz clock)
+│   ├── pin_order.cfg       # Specifies which side of the chip UART/Reset pins live on
+│   ├── openroad_vars.tcl   # Extra tuning for CTS or Routing (optional)
+│   └── output/             # Results: GDS, LEF, DEF, and final timing reports
+│
+└── scripts/                # Helper Scripts
+    ├── build_sw.sh         # Triggers the software compilation
+    ├── run_flow.sh         # Triggers the OpenROAD flow from your local project folder
+    └── report_parser.py    # (Optional) To extract Area/Power/Timing into a table
