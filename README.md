@@ -1,3 +1,9 @@
+Component,Status
+Software,"Done (93 bytes, fits 1KB)"
+Logic (RTL),"Done (Pipelined Interconnect, Handshake fixed)"
+Simulation,"Done (Verified ""Hello World"" in terminal)"
+Physical (PD),"In Progress (Synthesis passing, Floorplan next)"
+ 
  RISC-V RV32I Mini SoC — RTL to GDSII using OpenROAD
  Project Overview
 
