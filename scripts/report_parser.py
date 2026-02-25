@@ -1,3 +1,4 @@
+#RiscV-mini-SoC/scripts/report_parser.py
 import re
 import os
 import sys
@@ -35,7 +36,7 @@ def parse_report(logfile, stage):
     elif stage == "area":
         # Extract Design Area from OpenROAD
         area = re.search(r"Design area\s+([\d.]+)\s+u\^2", content)
-        util = re.search(f"Utilization\s+([\d.]+)", content)
+        util = re.search(fr"Utilization\s+([\d.]+)", content)
         if area: print(f"Total Design Area: {area.group(1)} um^2")
         if util: print(f"Core Utilization: {util.group(1)}%")
 

@@ -30,10 +30,10 @@ yosys blackbox sky130_sram_1kbyte_1rw1r_32x256_8
 # These are the fundamental Yosys RTL optimization passes
 yosys proc; yosys opt; yosys fsm; yosys opt; yosys memory; yosys opt;
 
-# 4. Mapping to Sky130
+
 # 4. Mapping to Sky130
 yosys techmap
-yosys opt
+yosys dfflibmap -liberty /home/manal/OpenROAD/test/sky130hd/sky130_fd_sc_hd__tt_025C_1v80.lib
 yosys abc -liberty /home/manal/OpenROAD/test/sky130hd/sky130_fd_sc_hd__tt_025C_1v80.lib
 yosys clean
 
@@ -42,8 +42,10 @@ yosys splitnets -ports
 yosys setundef -zero
 yosys check
 
+
 # 6. Output netlist - This must match what run_flow.sh expects
 # Change this to output/synth.v so floorplan step can find it
 #mkdir -p output
-yosys write_verilog -noattr output/synth.v
+# Add -noattr to remove the attributes that confuse OpenROAD
+yosys write_verilog -noattr -noexpr -nodec output/synth.v
 yosys stat

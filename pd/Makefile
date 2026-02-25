@@ -14,12 +14,33 @@ synth:
 
 floorplan:
 	@echo "Starting Floorplan for $(DESIGN_NAME)..."
-	bash $(FLOW_SCRIPT) --design $(DESIGN_NAME) --step floorplan
+	bash $(FLOW_SCRIPT) --design $(DESIGN_NAME) --step floorplan | tee output/floorplan.log
 
 # ... existing targets ...
 pdn:
 	@echo "Starting PDN generation..."
-	bash $(FLOW_SCRIPT) --design $(DESIGN_NAME) --step pdn
+	bash $(FLOW_SCRIPT) --design $(DESIGN_NAME) --step pdn | tee output/pdn.log
+
+placement:
+	@echo "Starting Placement..."
+	bash $(FLOW_SCRIPT) --design $(DESIGN_NAME) --step placement | tee output/placement.log
+
+report:	
+	@echo "Analyzing Design Metrics..."
+	python3 $(PROJECT_HOME)/scripts/report_parser.py
+
+sta:
+	@echo "Checking Timing..."
+	bash $(FLOW_SCRIPT) --design $(DESIGN_NAME) --step sta | tee output/sta.log
+
+cts:
+	@echo "Building Clock Tree..."
+	bash $(FLOW_SCRIPT) --design $(DESIGN_NAME) --step cts | tee output/cts.log
+
+route:
+	@echo "Routing the MiniSoC..."
+	bash $(FLOW_SCRIPT) --design $(DESIGN_NAME) --step route | tee output/route.log
+
 clean:
 	@echo "Cleaning up project files..."
 	rm -rf output/*.v

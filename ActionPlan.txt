@@ -297,3 +297,85 @@ Your original Root Makefile was trying to force your design into the OpenROAD-fl
     The Risk: If you use the official flow without being an expert in it, it might optimize away your UART or ignore your 1KB memory limits because it thinks it knows better.
 
     The Solution: By pointing the Makefile to your local pd/ folder, you keep total control. You know exactly which synth.tcl is being used. This is how "Tapeout-ready" designs are actually managed—everything stays local to the project.
+    
+FLOORPLAN:
+    The Grid Alignment Message
+    [WARNING IFP-0028] Core area lower left (10.000, 10.000) snapped to (10.120, 10.880).
+What it means: In the Sky130 process, every gate must sit on a specific X/Y grid (the "site"). You asked for the core to start at (10, 10), but that specific spot doesn't align with the legal grid for the unithd site.
+    Is it a problem? No. OpenROAD automatically "snapped" it to the nearest legal starting point. This is normal and actually prevents manufacturing errors.
+
+OPENROAD DOCUMENTAION MY GOAT MY SAVIOUR WOW I SHOULD HAVE USED IT EARLIER, BEST STUFF OUT THERE
+
+
+The PDN (Power Distribution Network)
+Now that the macros are in their "homes," we need to give them power. If we don't build a strong power grid, the PicoRV32 will suffer from voltage drops, and the chip will fail.
+Since you are using Sky130, your PDN needs to connect to two different types of pins:
+    Standard Cells (CPU/UART): Use VPWR and VGND.
+    SRAM Macros: Use vccd1 and vssd1.
+    
+add_global_connection: This is the "Electronic Student's" best friend. It tells the tool that every pin named VPWR (in the cells) and vccd1 (in the SRAM) belongs to the same electrical net: VDD.
+
+met1 vs met4: met1 is thin and runs horizontally to touch every gate. met4 is thick and runs vertically to bring in high current from the outside.
+
+Seeing [INFO ODB-0131] Created 9870 components is the ultimate green flag. It confirms your PicoRV32 SoC is fully present in the physical database and hasn't been optimized away. Now that the Inserting grid: stdcell_grid message has appeared, your chip is finally getting its "nervous system" for power.
+. Verification of the PDN
+After the Inserting grid message, you should see a report of vias and rectangles. For a Tapeout-Ready design, you need to ensure the PDN successfully "strapped" your macros.
+
+Why 40%? In an 800×800 or 900×900 die, 40% is the "Goldilocks zone."
+    It's dense enough to keep wires short (better timing).
+    It's sparse enough that the Router won't get stuck later. If you were at 80% density, you’d likely have "Routing Congestion" where there aren't enough metal tracks to connect all the gates.
+
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxtp_2' - skipping.
+Warning: Found unsupported expression 'D&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sdfxtp_4' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxbp_1' - skipping.
+Warning: Found unsupported expression 'D&DE&!SCE|IQ&!DE&!SCE|SCD&SCE' in pin attribute of cell 'sky130_fd_sc_hd__sedfxbp_2' - skipping.
+
+The expressions like D&!SCE|SCD&SCE are Boolean descriptions of the logic inside a Scan D-Flip-Flop (SDF).
+    D: Data input.
+    SCD: Scan Chain Data input.
+    SCE: Scan Chain Enable.
+The logic (D AND NOT SCE) OR (SCD AND SCE) is just a simple 2-to-1 Multiplexer that chooses between your normal data and the test data
+Yosys (the synthesis tool) reads the .lib files to understand how to map your Verilog to gates.
+    Complexity: Some Sky130 cells have very complex Boolean equations for their pins.
+    Parser Limitations: The built-in Liberty parser in older versions of Yosys sometimes struggles with specific syntax styles for these multiplexed flip-flops.
+    The Result: Yosys says, "I don't understand this specific cell's internal logic, so I won't use it for mapping."
+    
+Does this affect my MiniSoC?
+Short answer: No.
+    Mapping: Yosys will simply use the standard D-Flip-Flops (sky130_fd_sc_hd__dfxtp_1) instead of the Scan-enabled versions. Since you aren't implementing a DFT (Design For Test) scan chain for this university project, you don't actually need these specific cells.
+    
+1. The HPWL Explosion (146% Delta)
+You might be worried seeing delta HPWL 146%. In a smaller design, this would be a red flag, but here’s why it happened:
+    Placement Padding: By adding set_placement_padding, you forced the cells to stay further apart.
+    Legalization: global_placement allowed cells to overlap to get the shortest possible wires. detailed_placement (or legalization) pushed them onto legal sites and away from your SRAM macros.
+    The Trade-off: Your wires got longer (HPWL increased), but your chip is now routable. Without this "delta," you would have shorts and DRC errors during the routing stage.
+    
+2. The Filler Success
+    [INFO DPL-0001] Placed 37321 filler instances.
+This is the most important line for your "Tapeout." You had ~9,800 logic cells, but you added 37,321 fillers.
+    Why so many? Because you have a 900x900 die (plenty of room) and only 26% utilization.
+    The Result: Your VDD and VSS power rails are now continuous across the entire 900um width of the chip. Your PicoRV32 now has a solid electrical connection.
+
+3. Mirroring Optimization
+    [INFO DPL-0020] Mirrored 2469 instances
+    [INFO DPL-0023] HPWL delta -1.2 %
+This was a "free win." By simply flipping 2,469 cells horizontally, OpenROAD reduced the total wire length by 1.2% before legalization. In a real chip, this reduces power consumption and slightly improves speed.
+
+Decoding the "Critical Path"
+The second report shows your Worst Case Timing Path. This is the longest "marathon" a signal has to run between two flip-flops.
+    Logic Depth: Notice the long list of nand, nor, and lpflow cells. This signal is passing through roughly 30 gates in a single clock cycle.
+    Arrival Time (17.24ns): The signal starts at one flip-flop and reaches the next in ~17.25ns.
+    Required Time (19.34ns): Because your clock is 20ns (minus some safety "uncertainty"), the signal had to arrive by 19.34ns.
+    Positive Slack (+2.09ns): You actually have a 2ns "cushion." This means your chip could probably be pushed to ~55MHz without failing.
+    
+NDR (Non-Default Rules) are actually the tool trying to help you.	
+
+OpenROAD usually tries to route clock nets with "double width and double spacing" (NDR) to protect the clock from noise and reduce resistance. However, because your design is getting tight in certain areas, the tool is saying:
+    "I can't fit these thick clock wires through the narrow gaps anymore. I'm going to use regular thin wires instead to avoid causing a traffic jam (congestion)."
+This is a common trade-off. It’s better to have a thin-wire clock that routes successfully than a thick-wire clock that results in an unmanufacturable chip.
+
+Fixing the Ground Net Error (DRT-0305)
+The synthesis tool tied some unused inputs to a "zero" net, but labeled it as GROUND. In OpenROAD, the detailed router only wants to touch SIGNAL nets.
+
+Solving the Congestion (GRT-0116)
+Your design is "congested," meaning there are too many wires trying to pass through the same narrow corridors (likely around your SRAM macro or the CPU's dense logic). Even though it's moving to detailed routing, a congested global route usually leads to thousands of DRC violations that never resolve.

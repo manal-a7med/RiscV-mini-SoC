@@ -71,3 +71,7 @@ Summary of your success:
     PicoRV32: Correctly executing branches (if statements).
     Interconnect: Correctly routing between UART (10000000) and RAM (00010100).
     SRAM Macro: Successfully storing 32-bit values and returning them with 1-cycle latency
+    
+Seeing [INFO ODB-0131] Created 9870 components is the ultimate green flag. It confirms your PicoRV32 SoC is fully present in the physical database and hasn't been optimized away. Now that the Inserting grid: stdcell_grid message has appeared, your chip is finally getting its "nervous system" for power.
+
+Seeing wns max 0.00 and slack (MET) means your PicoRV32 SoC is officially capable of running at 50MHz (20ns period) in its current physical state.

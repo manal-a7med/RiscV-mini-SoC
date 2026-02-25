@@ -39,6 +39,12 @@ physical:
 	# Instead of the OpenROAD system flow, we call your local Makefile
 	$(MAKE) -C $(PD_DIR) synth
 	$(MAKE) -C $(PD_DIR) floorplan
+	$(MAKE) -C $(PD_DIR) pdn
+	$(MAKE) -C $(PD_DIR) placement
+	$(MAKE) -C $(PD_DIR) report
+	$(MAKE) -C $(PD_DIR) sta
+	$(MAKE) -C $(PD_DIR) cts
+	$(MAKE) -C $(PD_DIR) route
 
 # 4. Clean up
 clean:
