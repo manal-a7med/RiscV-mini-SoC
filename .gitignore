@@ -3,14 +3,11 @@
 sim/sim_out
 
 # Physical Design outputs (These stay local)
-pd/output/
 *.def
 *.odb
-*.log
 *.vcd
 *.ghw
 pd/work/
-*.log
 *.history
 
 # Ignore ALL OpenROAD/Magic intermediate artifacts

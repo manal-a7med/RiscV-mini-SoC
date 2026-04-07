@@ -1,0 +1,87 @@
+violation type: Metal Spacing
+	srcs: net:uart_inst/tx_state\[0\] net:uart_inst/tx_state\[3\]
+	bbox = (1450.3550, 175.1850) - (1450.4650, 175.3550) on Layer li1
+violation type: Metal Spacing
+	srcs: net:cpu_inst/_05266_ inst:cpu_inst/_10554_
+	bbox = (747.9150, 569.9250) - (748.0450, 570.0950) on Layer li1
+violation type: Metal Spacing
+	srcs: net:timer_inst/_206_ net:timer_inst/count_reg\[3\]
+	bbox = (1574.4900, 692.3750) - (1574.6250, 692.4950) on Layer li1
+violation type: Metal Spacing
+	srcs: net:cpu_inst/_00445_ net:cpu_inst/count_instr\[19\]
+	bbox = (154.9550, 1034.7050) - (155.1050, 1034.8750) on Layer li1
+violation type: Metal Spacing
+	srcs: net:cpu_inst/_00445_ net:cpu_inst/count_instr\[19\]
+	bbox = (154.9550, 1034.6300) - (155.1050, 1034.7050) on Layer li1
+violation type: Metal Spacing
+	srcs: net:clknet_8_46__leaf_clk_regs net:cpu_inst/_02825_
+	bbox = (364.7350, 1027.1850) - (364.8700, 1027.2250) on Layer li1
+violation type: Metal Spacing
+	srcs: net:cpu_inst/_02425_ inst:cpu_inst/_08043_
+	bbox = (855.5250, 101.0650) - (855.6850, 101.2350) on Layer li1
+violation type: Metal Spacing
+	srcs: net:timer_inst/_292_ inst:timer_inst/_432_
+	bbox = (1901.5450, 585.2250) - (1901.7050, 585.3950) on Layer li1
+violation type: Metal Spacing
+	srcs: net:cpu_inst/cpuregs\[10\]\[0\] inst:cpu_inst/_11651_
+	bbox = (194.0550, 1184.3050) - (194.2050, 1184.4250) on Layer li1
+violation type: Metal Spacing
+	srcs: net:cpu_inst/cpuregs\[14\]\[30\] inst:cpu_inst/_11914_
+	bbox = (178.4150, 1301.6550) - (178.5650, 1301.7750) on Layer li1
+violation type: Metal Spacing
+	srcs: net:clknet_8_44__leaf_clk_regs net:cpu_inst/_02825_
+	bbox = (369.3250, 893.0950) - (369.4700, 893.1350) on Layer li1
+violation type: Metal Spacing
+	srcs: net:cpu_inst/cpuregs\[24\]\[17\] inst:cpu_inst/_12573_
+	bbox = (350.4550, 1405.3050) - (350.6050, 1405.4750) on Layer li1
+violation type: Metal Spacing
+	srcs: net:cpu_inst/_02825_ net:cpu_inst/eoi\[25\]
+	bbox = (553.7750, 1168.3250) - (553.9350, 1168.4950) on Layer li1
+violation type: Metal Spacing
+	srcs: net:cpu_inst/_04455_ net:cpu_inst/_06187_
+	bbox = (943.4150, 210.5450) - (943.5550, 210.6650) on Layer li1
+violation type: Metal Spacing
+	srcs: net:cpu_inst/_02825_ net:cpu_inst/count_instr\[43\]
+	bbox = (216.1550, 746.0450) - (216.2850, 746.2150) on Layer li1
+violation type: Metal Spacing
+	srcs: net:cpu_inst/count_instr\[47\] inst:cpu_inst/_10779_
+	bbox = (201.8750, 861.0150) - (202.0300, 861.1350) on Layer li1
+violation type: Metal Spacing
+	srcs: net:cpu_inst/_05638_ net:cpu_inst/count_instr\[59\]
+	bbox = (311.3550, 942.9050) - (311.5150, 943.0750) on Layer li1
+violation type: Metal Spacing
+	srcs: net:cpu_inst/_00034_ net:cpu_inst/_04514_
+	bbox = (987.6150, 166.6850) - (987.7100, 166.8550) on Layer li1
+violation type: Metal Spacing
+	srcs: net:clknet_8_67__leaf_clk_regs net:cpu_inst/instr_timer
+	bbox = (1002.7450, 164.1350) - (1002.8900, 164.1750) on Layer li1
+violation type: Metal Spacing
+	srcs: net:cpu_inst/_05946_ inst:cpu_inst/_11328_
+	bbox = (1019.7450, 956.8450) - (1019.9050, 957.0150) on Layer li1
+violation type: Metal Spacing
+	srcs: net:cpu_inst/_02304_
+	bbox = (1108.0550, 570.3150) - (1108.1450, 570.4350) on Layer li1
+violation type: Metal Spacing
+	srcs: net:timer_inst/_071_ net:uart_addr\[2\]
+	bbox = (1495.4050, 566.5250) - (1495.5450, 566.6950) on Layer li1
+violation type: Metal Spacing
+	srcs: net:timer_inst/_071_ net:uart_addr\[2\]
+	bbox = (1495.4050, 566.5250) - (1495.5450, 566.5850) on Layer li1
+violation type: Metal Spacing
+	srcs: net:cpu_inst/_02825_ net:cpu_inst/_05707_
+	bbox = (228.5650, 618.5450) - (228.7150, 618.6650) on Layer li1
+violation type: Metal Spacing
+	srcs: net:cpu_inst/count_instr\[10\] inst:cpu_inst/_10863_
+	bbox = (230.8250, 690.2850) - (230.9450, 690.4550) on Layer li1
+violation type: Metal Spacing
+	srcs: net:cpu_inst/cpuregs\[33\]\[17\] inst:cpu_inst/_13077_
+	bbox = (522.4950, 1389.3250) - (522.6450, 1389.4950) on Layer li1
+violation type: Metal Spacing
+	srcs: net:cpu_inst/cpuregs\[33\]\[24\] inst:cpu_inst/_13063_
+	bbox = (522.4950, 1461.0650) - (522.6450, 1461.2350) on Layer li1
+violation type: Metal Spacing
+	srcs: net:cpu_inst/_03505_ inst:cpu_inst/_08336_
+	bbox = (621.4350, 787.1850) - (621.5450, 787.3050) on Layer li1
+violation type: Metal Spacing
+	srcs: net:clknet_8_79__leaf_clk_regs net:cpu_inst/_02319_
+	bbox = (1200.1150, 517.7350) - (1200.2300, 517.7750) on Layer li1

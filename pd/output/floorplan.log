@@ -1,0 +1,216 @@
+Running OpenROAD Floorplan for mini_soc_top...
+OpenROAD v2.0-27886-g745f72f2bf 
+Features included (+) or not (-): +GPU +GUI +Python
+This program is licensed under the BSD-3 license. See the LICENSE file for details.
+Components of this program may be licensed under more restrictive licenses which must be honored.
+[INFO ODB-0227] LEF file: /home/manal/OpenROAD/test/sky130hd/sky130hd.tlef, created 13 layers, 25 vias
+[WARNING ODB-0220] WARNING (LEFPARS-2008): NOWIREEXTENSIONATPIN statement is obsolete in version 5.6 or later.
+The NOWIREEXTENSIONATPIN statement will be ignored. See file /home/manal/OpenROAD/test/sky130hd/sky130_fd_sc_hd.lef at line 2.
+
+[INFO ODB-0227] LEF file: /home/manal/OpenROAD/test/sky130hd/sky130_fd_sc_hd.lef, created 437 library cells
+[INFO ODB-0227] LEF file: ../macros/sky130_sram_1kbyte_1rw1r_32x256_8.lef, created 1 library cells
+[WARNING IFP-0028] Core area lower left (30.000, 30.000) snapped to (30.360, 32.640).
+[INFO IFP-0001] Added 528 rows of 3129 site unithd.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/addr1[7] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/addr1[6] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/addr1[5] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/addr1[0] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/dout1[31] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/dout0[31] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/dout1[30] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/dout0[30] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/dout1[28] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/dout0[28] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/dout1[27] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/dout0[27] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/dout1[26] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/dout0[26] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/dout0[25] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/dout1[25] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/dout1[24] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/dout0[24] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/din0[31] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/dout0[23] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/dout1[23] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/din0[30] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/dout0[22] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/dout1[22] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/din0[29] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/dout0[21] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/dout1[21] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/din0[28] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/dout0[20] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/dout1[20] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/din0[27] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/dout1[19] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/dout0[19] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/din0[25] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/dout0[18] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/dout1[18] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/dout1[17] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/din0[24] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/dout0[17] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/din0[23] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/dout1[16] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/dout0[16] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/din0[22] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/dout1[15] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/dout0[15] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/din0[21] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/din0[20] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/dout1[13] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/dout0[13] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/din0[19] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/dout1[12] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/dout0[12] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/dout1[11] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/dout0[11] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/din0[17] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/dout0[10] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/dout1[10] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/din0[16] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/din0[15] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/dout1[8] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/dout0[8] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/din0[14] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/dout0[7] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/dout1[7] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/din0[13] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/dout1[6] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/dout0[6] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/din0[12] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/dout1[5] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/dout0[5] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/din0[11] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/dout1[4] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/dout0[4] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/dout1[3] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/dout0[3] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/din0[9] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/din0[8] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/dout1[2] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/dout0[2] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/din0[7] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/dout1[1] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/dout0[1] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/din0[6] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/dout1[0] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/dout0[0] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/din0[5] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/din0[4] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/din0[3] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/din0[1] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/din0[0] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/wmask0[3] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/wmask0[2] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/wmask0[1] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/wmask0[0] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/addr0[0] from layer met4 to the track-grid.
+[INFO MPL-0035] Macro dmem_inst/sram_macro placed. Bounding box (80.790um, 100.790um), (560.570um, 498.290um). Orientation MY
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/addr1[7] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/addr1[6] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/addr1[5] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/addr1[0] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/dout1[31] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/dout0[31] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/dout1[30] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/dout0[30] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/dout1[28] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/dout0[28] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/dout1[27] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/dout0[27] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/dout1[26] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/dout0[26] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/dout0[25] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/dout1[25] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/dout1[24] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/dout0[24] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/din0[31] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/dout0[23] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/dout1[23] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/din0[30] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/dout0[22] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/dout1[22] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/din0[29] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/dout0[21] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/dout1[21] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/din0[28] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/dout0[20] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/dout1[20] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/din0[27] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/dout1[19] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/dout0[19] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/din0[25] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/dout0[18] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/dout1[18] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/dout1[17] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/din0[24] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/dout0[17] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/din0[23] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/dout1[16] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/dout0[16] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/din0[22] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/dout1[15] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/dout0[15] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/din0[21] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/din0[20] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/dout1[13] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/dout0[13] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/din0[19] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/dout1[12] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/dout0[12] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/dout1[11] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/dout0[11] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/din0[17] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/dout0[10] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/dout1[10] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/din0[16] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/din0[15] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/dout1[8] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/dout0[8] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/din0[14] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/dout0[7] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/dout1[7] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/din0[13] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/dout1[6] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/dout0[6] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/din0[12] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/dout1[5] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/dout0[5] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/din0[11] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/dout1[4] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/dout0[4] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/dout1[3] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/dout0[3] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/din0[9] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/din0[8] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/dout1[2] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/dout0[2] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/din0[7] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/dout1[1] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/dout0[1] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/din0[6] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/dout1[0] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/dout0[0] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/din0[5] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/din0[4] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/din0[3] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/din0[1] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/din0[0] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/wmask0[3] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/wmask0[2] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/wmask0[1] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/wmask0[0] from layer met4 to the track-grid.
+[WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/addr0[0] from layer met4 to the track-grid.
+[INFO MPL-0035] Macro imem_inst/sram_macro placed. Bounding box (80.790um, 952.150um), (560.570um, 1349.650um). Orientation MY
+[INFO PPL-0070] Pin clk placed at (0.40um, 999.94um) instead of (0.00um, 1000.00um). Pin was snapped to a routing track, to the manufacturing grid or moved away from blocked region.
+[INFO PPL-0070] Pin reset_n placed at (0.40um, 1099.90um) instead of (0.00um, 1100.00um). Pin was snapped to a routing track, to the manufacturing grid or moved away from blocked region.
+Found 2 macro blocks.
+Using 2 tracks default min distance between IO pins.
+[INFO PPL-0001] Number of available slots 5455
+[INFO PPL-0002] Number of I/O             3
+[INFO PPL-0003] Number of I/O w/sink      2
+[INFO PPL-0004] Number of I/O w/o sink    1
+[INFO PPL-0005] Slots per section         200
+[INFO PPL-0008] Successfully assigned pins to sections.
+[INFO PPL-0012] I/O nets HPWL: 1501.36 um.

@@ -1,0 +1,18 @@
+Generating Power Distribution Network (PDN)...
+OpenROAD v2.0-27886-g745f72f2bf 
+Features included (+) or not (-): +GPU +GUI +Python
+This program is licensed under the BSD-3 license. See the LICENSE file for details.
+Components of this program may be licensed under more restrictive licenses which must be honored.
+[INFO ODB-0227] LEF file: /home/manal/OpenROAD/test/sky130hd/sky130hd.tlef, created 13 layers, 25 vias
+[WARNING ODB-0220] WARNING (LEFPARS-2008): NOWIREEXTENSIONATPIN statement is obsolete in version 5.6 or later.
+The NOWIREEXTENSIONATPIN statement will be ignored. See file /home/manal/OpenROAD/test/sky130hd/sky130_fd_sc_hd.lef at line 2.
+
+[INFO ODB-0227] LEF file: /home/manal/OpenROAD/test/sky130hd/sky130_fd_sc_hd.lef, created 437 library cells
+[INFO ODB-0227] LEF file: ../macros/sky130_sram_1kbyte_1rw1r_32x256_8.lef, created 1 library cells
+[INFO ODB-0127] Reading DEF file: output/floorplan.def
+[INFO ODB-0128] Design: mini_soc_top
+[INFO ODB-0130]     Created 5 pins.
+[INFO ODB-0131]     Created 10270 components and 79646 component-terminals.
+[INFO ODB-0133]     Created 10559 nets and 38166 connections.
+[INFO ODB-0134] Finished DEF file: output/floorplan.def
+[INFO PDN-0001] Inserting grid: stdcell_grid

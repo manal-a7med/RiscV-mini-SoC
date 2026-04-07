@@ -1,0 +1,682 @@
+Running CTS...
+OpenROAD v2.0-27886-g745f72f2bf 
+Features included (+) or not (-): +GPU +GUI +Python
+This program is licensed under the BSD-3 license. See the LICENSE file for details.
+Components of this program may be licensed under more restrictive licenses which must be honored.
+[INFO ODB-0227] LEF file: /home/manal/OpenROAD/test/sky130hd/sky130hd.tlef, created 13 layers, 25 vias
+[WARNING ODB-0220] WARNING (LEFPARS-2008): NOWIREEXTENSIONATPIN statement is obsolete in version 5.6 or later.
+The NOWIREEXTENSIONATPIN statement will be ignored. See file /home/manal/OpenROAD/test/sky130hd/sky130_fd_sc_hd.lef at line 2.
+
+[INFO ODB-0227] LEF file: /home/manal/OpenROAD/test/sky130hd/sky130_fd_sc_hd.lef, created 437 library cells
+[INFO ODB-0227] LEF file: ../macros/sky130_sram_1kbyte_1rw1r_32x256_8.lef, created 1 library cells
+[INFO ODB-0127] Reading DEF file: output/placement.def
+[INFO ODB-0128] Design: mini_soc_top
+[INFO ODB-0094] 		Created 100000 Insts
+[INFO ODB-0130]     Created 5 pins.
+[INFO ODB-0131]     Created 178556 components and 752790 component-terminals.
+[INFO ODB-0132]     Created 2 special nets and 357112 connections.
+[INFO ODB-0133]     Created 10559 nets and 38166 connections.
+[INFO ODB-0134] Finished DEF file: output/placement.def
+[INFO CTS-0050] Root buffer is sky130_fd_sc_hd__clkbuf_16.
+[INFO CTS-0051] Sink buffer is sky130_fd_sc_hd__clkbuf_16.
+[INFO CTS-0052] The following clock buffers will be used for CTS:
+                    sky130_fd_sc_hd__clkbuf_4
+                    sky130_fd_sc_hd__clkbuf_8
+                    sky130_fd_sc_hd__clkbuf_16
+[INFO CTS-0049] Characterization buffer is sky130_fd_sc_hd__clkbuf_16.
+[INFO CTS-0007] Net "clk" found for clock "clk".
+[INFO CTS-0011]  Clock net "clk" for macros has 2 sinks.
+[INFO CTS-0011]  Clock net "clk_regs" for registers has 1995 sinks.
+[INFO CTS-0008] TritonCTS found 2 clock nets.
+[INFO CTS-0097] Characterization used 3 buffer(s) types.
+[INFO CTS-0201] 2 blockages from hard placement blockages and placed macros will be used.
+[INFO CTS-0027] Generating H-Tree topology for net clk.
+[INFO CTS-0028]  Total number of sinks: 2.
+[INFO CTS-0030]  Number of static layers: 0.
+[INFO CTS-0020]  Wire segment unit: 13600  dbu (13 um).
+[INFO CTS-0023]  Original sink region: [(531140, 101320), (531140, 952680)].
+[INFO CTS-0024]  Normalized sink region: [(39.0544, 7.45), (39.0544, 70.05)].
+[INFO CTS-0025]     Width:  0.0000.
+[INFO CTS-0026]     Height: 62.6000.
+ Level 1
+    Direction: Vertical
+    Sinks per sub-region: 1
+    Sub-region size: 0.0000 X 31.3000
+[INFO CTS-0034]     Segment length (rounded): 15.
+[INFO CTS-0032]  Stop criterion found. Max number of sinks is 15.
+[INFO CTS-0035]  Number of sinks covered: 2.
+[INFO CTS-0201] 2 blockages from hard placement blockages and placed macros will be used.
+[INFO CTS-0027] Generating H-Tree topology for net clk_regs.
+[INFO CTS-0028]  Total number of sinks: 1995.
+[INFO CTS-0030]  Number of static layers: 0.
+[INFO CTS-0020]  Wire segment unit: 13600  dbu (13 um).
+[INFO CTS-0023]  Original sink region: [(45345, 47660), (1450645, 1451180)].
+[INFO CTS-0024]  Normalized sink region: [(3.33419, 3.50441), (106.665, 106.704)].
+[INFO CTS-0025]     Width:  103.3309.
+[INFO CTS-0026]     Height: 103.2000.
+ Level 1
+    Direction: Horizontal
+    Sinks per sub-region: 998
+    Sub-region size: 51.6654 X 103.2000
+[INFO CTS-0034]     Segment length (rounded): 26.
+ Level 2
+    Direction: Vertical
+    Sinks per sub-region: 499
+    Sub-region size: 51.6654 X 51.6000
+[INFO CTS-0034]     Segment length (rounded): 26.
+ Level 3
+    Direction: Horizontal
+    Sinks per sub-region: 250
+    Sub-region size: 25.8327 X 51.6000
+[INFO CTS-0034]     Segment length (rounded): 12.
+ Level 4
+    Direction: Vertical
+    Sinks per sub-region: 125
+    Sub-region size: 25.8327 X 25.8000
+[INFO CTS-0034]     Segment length (rounded): 12.
+ Level 5
+    Direction: Horizontal
+    Sinks per sub-region: 63
+    Sub-region size: 12.9164 X 25.8000
+[INFO CTS-0034]     Segment length (rounded): 6.
+ Level 6
+    Direction: Vertical
+    Sinks per sub-region: 32
+    Sub-region size: 12.9164 X 12.9000
+[INFO CTS-0034]     Segment length (rounded): 6.
+ Level 7
+    Direction: Horizontal
+    Sinks per sub-region: 16
+    Sub-region size: 6.4582 X 12.9000
+[INFO CTS-0034]     Segment length (rounded): 4.
+ Level 8
+    Direction: Vertical
+    Sinks per sub-region: 8
+    Sub-region size: 6.4582 X 6.4500
+[INFO CTS-0034]     Segment length (rounded): 4.
+[INFO CTS-0032]  Stop criterion found. Max number of sinks is 15.
+[INFO CTS-0035]  Number of sinks covered: 1995.
+[INFO CTS-0018]     Created 3 clock buffers.
+[INFO CTS-0012]     Minimum number of buffers in the clock path: 2.
+[INFO CTS-0013]     Maximum number of buffers in the clock path: 2.
+[INFO CTS-0015]     Created 3 clock nets.
+[INFO CTS-0016]     Fanout distribution for the current clock = 1:2..
+[INFO CTS-0017]     Max level of the clock tree: 1.
+[INFO CTS-0018]     Created 279 clock buffers.
+[INFO CTS-0012]     Minimum number of buffers in the clock path: 5.
+[INFO CTS-0013]     Maximum number of buffers in the clock path: 5.
+[INFO CTS-0015]     Created 279 clock nets.
+[INFO CTS-0016]     Fanout distribution for the current clock = 1:1, 2:1, 3:10, 4:20, 5:18, 6:41, 7:40, 8:29, 9:25, 10:35, 11:10, 12:13, 13:5, 14:1, 15:4, 16:1, 18:1, 20:1..
+[INFO CTS-0017]     Max level of the clock tree: 8.
+[INFO CTS-0098] Clock net "clk"
+[INFO CTS-0099]  Sinks 2
+[INFO CTS-0100]  Leaf buffers 0
+[INFO CTS-0101]  Average sink wire length 1609.66 um
+[INFO CTS-0102]  Path depth 2 - 2
+[INFO CTS-0207]  Dummy loads inserted 0
+[INFO CTS-0098] Clock net "clk_regs"
+[INFO CTS-0099]  Sinks 2225
+[INFO CTS-0100]  Leaf buffers 0
+[INFO CTS-0101]  Average sink wire length 1203.26 um
+[INFO CTS-0102]  Path depth 5 - 5
+[INFO CTS-0207]  Dummy loads inserted 230
+[INFO CTS-0033] Balancing latency for clock clk
+[INFO CTS-0036]  inserted 6 delay buffers
+[INFO CTS-0037] Total number of delay buffers: 6
+[INFO RSZ-0100] Repair move sequence: UnbufferMove SizeUpMove SwapPinsMove BufferMove CloneMove SplitLoadMove 
+[INFO RSZ-0094] Found 1379 endpoints with setup violations.
+[INFO RSZ-0099] Repairing 1379 out of 1379 (100.00%) violating endpoints...
+   Iter   | Removed | Resized | Inserted | Cloned |  Pin  |   Area   |    WNS   |   TNS      |  Viol  | Worst
+          | Buffers |  Gates  | Buffers  |  Gates | Swaps |          |          |            | Endpts | Endpt
+--------------------------------------------------------------------------------------------------------------
+        0 |       0 |       0 |        0 |      0 |     0 |    +0.0% |   -7.218 |    -2628.3 |   1379 | cpu_inst/_15976_/D
+[WARNING RSZ-2021] cannot find a viable buffering solution on pin cpu_inst/_11339_/Y after 1 rounds of buffering (no solution meets design rules)
+    final |       0 |       7 |        0 |      8 |     2 |    +0.0% |    0.150 |        0.0 |      0 | cpu_inst/_16153_/D
+--------------------------------------------------------------------------------------------------------------
+[INFO RSZ-0051] Resized 7 instances: 7 up, 0 up match, 0 down, 0 VT
+[INFO RSZ-0043] Swapped pins on 2 instances.
+[INFO RSZ-0049] Cloned 8 instances.
+[INFO RSZ-0033] No hold violations found.
+Placement Analysis
+---------------------------------
+total displacement       1225.2 u
+average displacement        0.1 u
+max displacement            9.9 u
+original HPWL          785467.4 u
+legalized HPWL         785738.6 u
+delta HPWL                    0 %
+
+Iteration |   Area    | Resized | Buffers | Nets repaired | Remaining
+---------------------------------------------------------------------
+        0 |     +0.0% |       0 |       0 |             0 |     11258
+    final |     +1.3% |     169 |     359 |           246 |         0
+---------------------------------------------------------------------
+[INFO RSZ-0034] Found 248 slew violations.
+[INFO RSZ-0036] Found 44 capacitance violations.
+[INFO RSZ-0039] Resized 169 instances.
+[INFO RSZ-0038] Inserted 359 buffers in 246 nets.
+[INFO DPL-0001] Placed 167768 filler instances.
+Clock clk
+   1.17 source latency cpu_inst/_16632_/CLK ^
+  -1.04 target latency imem_inst/sram_macro/clk0 ^
+   0.25 clock uncertainty
+   0.00 CRPR
+--------------
+   0.38 setup skew
+
+Clock clk
+   1.11 source latency cpu_inst/_16116_/CLK ^
+  -1.18 target latency cpu_inst/_16125_/CLK ^
+  -0.25 clock uncertainty
+   0.00 CRPR
+--------------
+  -0.32 hold skew
+
+Startpoint: reset_n (input port clocked by clk)
+Endpoint: bus_inst/_300_ (removal check against rising-edge clock clk)
+Path Group: asynchronous
+Path Type: min
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk (rise edge)
+   0.00    0.00   clock network delay (propagated)
+   4.00    4.00 ^ input external delay
+   0.42    4.42 ^ reset_n (in)
+   0.00    4.42 ^ bus_inst/_300_/RESET_B (sky130_fd_sc_hd__dfrtp_2)
+           4.42   data arrival time
+
+   0.00    0.00   clock clk (rise edge)
+   1.15    1.15   clock network delay (propagated)
+   0.25    1.40   clock uncertainty
+   0.00    1.40   clock reconvergence pessimism
+           1.40 ^ bus_inst/_300_/CLK (sky130_fd_sc_hd__dfrtp_2)
+   0.52    1.93   library removal time
+           1.93   data required time
+---------------------------------------------------------
+           1.93   data required time
+          -4.42   data arrival time
+---------------------------------------------------------
+           2.50   slack (MET)
+
+
+Startpoint: reset_n (input port clocked by clk)
+Endpoint: bus_inst/_299_ (removal check against rising-edge clock clk)
+Path Group: asynchronous
+Path Type: min
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk (rise edge)
+   0.00    0.00   clock network delay (propagated)
+   4.00    4.00 ^ input external delay
+   0.42    4.42 ^ reset_n (in)
+   0.00    4.42 ^ bus_inst/_299_/RESET_B (sky130_fd_sc_hd__dfrtp_2)
+           4.42   data arrival time
+
+   0.00    0.00   clock clk (rise edge)
+   1.15    1.15   clock network delay (propagated)
+   0.25    1.40   clock uncertainty
+   0.00    1.40   clock reconvergence pessimism
+           1.40 ^ bus_inst/_299_/CLK (sky130_fd_sc_hd__dfrtp_2)
+   0.51    1.92   library removal time
+           1.92   data required time
+---------------------------------------------------------
+           1.92   data required time
+          -4.42   data arrival time
+---------------------------------------------------------
+           2.50   slack (MET)
+
+
+Startpoint: cpu_inst/_16604_ (rising edge-triggered flip-flop clocked by clk)
+Endpoint: cpu_inst/_16604_ (rising edge-triggered flip-flop clocked by clk)
+Path Group: clk
+Path Type: min
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk (rise edge)
+   1.12    1.12   clock network delay (propagated)
+   0.00    1.12 ^ cpu_inst/_16604_/CLK (sky130_fd_sc_hd__dfxtp_1)
+   0.30    1.43 ^ cpu_inst/_16604_/Q (sky130_fd_sc_hd__dfxtp_1)
+   0.04    1.47 v cpu_inst/_14182_/Y (sky130_fd_sc_hd__nand2_1)
+   0.05    1.52 ^ cpu_inst/_14183_/Y (sky130_fd_sc_hd__o31ai_1)
+   0.00    1.52 ^ cpu_inst/_16604_/D (sky130_fd_sc_hd__dfxtp_1)
+           1.52   data arrival time
+
+   0.00    0.00   clock clk (rise edge)
+   1.12    1.12   clock network delay (propagated)
+   0.25    1.37   clock uncertainty
+   0.00    1.37   clock reconvergence pessimism
+           1.37 ^ cpu_inst/_16604_/CLK (sky130_fd_sc_hd__dfxtp_1)
+  -0.03    1.34   library hold time
+           1.34   data required time
+---------------------------------------------------------
+           1.34   data required time
+          -1.52   data arrival time
+---------------------------------------------------------
+           0.17   slack (MET)
+
+
+Startpoint: cpu_inst/_16081_ (rising edge-triggered flip-flop clocked by clk)
+Endpoint: cpu_inst/_16081_ (rising edge-triggered flip-flop clocked by clk)
+Path Group: clk
+Path Type: min
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk (rise edge)
+   1.15    1.15   clock network delay (propagated)
+   0.00    1.15 ^ cpu_inst/_16081_/CLK (sky130_fd_sc_hd__dfxtp_1)
+   0.29    1.44 v cpu_inst/_16081_/Q (sky130_fd_sc_hd__dfxtp_1)
+   0.04    1.48 ^ cpu_inst/_10919_/Y (sky130_fd_sc_hd__nand2_1)
+   0.05    1.53 v cpu_inst/_10921_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.00    1.53 v cpu_inst/_16081_/D (sky130_fd_sc_hd__dfxtp_1)
+           1.53   data arrival time
+
+   0.00    0.00   clock clk (rise edge)
+   1.15    1.15   clock network delay (propagated)
+   0.25    1.40   clock uncertainty
+   0.00    1.40   clock reconvergence pessimism
+           1.40 ^ cpu_inst/_16081_/CLK (sky130_fd_sc_hd__dfxtp_1)
+  -0.05    1.35   library hold time
+           1.35   data required time
+---------------------------------------------------------
+           1.35   data required time
+          -1.53   data arrival time
+---------------------------------------------------------
+           0.18   slack (MET)
+
+
+Startpoint: cpu_inst/_16087_ (rising edge-triggered flip-flop clocked by clk)
+Endpoint: cpu_inst/_16087_ (rising edge-triggered flip-flop clocked by clk)
+Path Group: clk
+Path Type: min
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk (rise edge)
+   1.15    1.15   clock network delay (propagated)
+   0.00    1.15 ^ cpu_inst/_16087_/CLK (sky130_fd_sc_hd__dfxtp_1)
+   0.29    1.44 v cpu_inst/_16087_/Q (sky130_fd_sc_hd__dfxtp_1)
+   0.04    1.49 ^ cpu_inst/_10896_/Y (sky130_fd_sc_hd__nand2_1)
+   0.05    1.53 v cpu_inst/_10899_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.00    1.53 v cpu_inst/_16087_/D (sky130_fd_sc_hd__dfxtp_1)
+           1.53   data arrival time
+
+   0.00    0.00   clock clk (rise edge)
+   1.15    1.15   clock network delay (propagated)
+   0.25    1.40   clock uncertainty
+   0.00    1.40   clock reconvergence pessimism
+           1.40 ^ cpu_inst/_16087_/CLK (sky130_fd_sc_hd__dfxtp_1)
+  -0.05    1.35   library hold time
+           1.35   data required time
+---------------------------------------------------------
+           1.35   data required time
+          -1.53   data arrival time
+---------------------------------------------------------
+           0.18   slack (MET)
+
+
+Startpoint: cpu_inst/_16062_ (rising edge-triggered flip-flop clocked by clk)
+Endpoint: cpu_inst/_16062_ (rising edge-triggered flip-flop clocked by clk)
+Path Group: clk
+Path Type: min
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk (rise edge)
+   1.15    1.15   clock network delay (propagated)
+   0.00    1.15 ^ cpu_inst/_16062_/CLK (sky130_fd_sc_hd__dfxtp_1)
+   0.29    1.45 v cpu_inst/_16062_/Q (sky130_fd_sc_hd__dfxtp_1)
+   0.04    1.49 ^ cpu_inst/_10981_/Y (sky130_fd_sc_hd__nand2_1)
+   0.05    1.54 v cpu_inst/_10983_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.00    1.54 v cpu_inst/_16062_/D (sky130_fd_sc_hd__dfxtp_1)
+           1.54   data arrival time
+
+   0.00    0.00   clock clk (rise edge)
+   1.15    1.15   clock network delay (propagated)
+   0.25    1.40   clock uncertainty
+   0.00    1.40   clock reconvergence pessimism
+           1.40 ^ cpu_inst/_16062_/CLK (sky130_fd_sc_hd__dfxtp_1)
+  -0.05    1.36   library hold time
+           1.36   data required time
+---------------------------------------------------------
+           1.36   data required time
+          -1.54   data arrival time
+---------------------------------------------------------
+           0.18   slack (MET)
+
+
+Startpoint: cpu_inst/_16068_ (rising edge-triggered flip-flop clocked by clk)
+Endpoint: cpu_inst/_16068_ (rising edge-triggered flip-flop clocked by clk)
+Path Group: clk
+Path Type: min
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk (rise edge)
+   1.15    1.15   clock network delay (propagated)
+   0.00    1.15 ^ cpu_inst/_16068_/CLK (sky130_fd_sc_hd__dfxtp_1)
+   0.29    1.45 v cpu_inst/_16068_/Q (sky130_fd_sc_hd__dfxtp_1)
+   0.04    1.49 ^ cpu_inst/_10963_/Y (sky130_fd_sc_hd__nand2_1)
+   0.05    1.54 v cpu_inst/_10965_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.00    1.54 v cpu_inst/_16068_/D (sky130_fd_sc_hd__dfxtp_1)
+           1.54   data arrival time
+
+   0.00    0.00   clock clk (rise edge)
+   1.15    1.15   clock network delay (propagated)
+   0.25    1.40   clock uncertainty
+   0.00    1.40   clock reconvergence pessimism
+           1.40 ^ cpu_inst/_16068_/CLK (sky130_fd_sc_hd__dfxtp_1)
+  -0.05    1.36   library hold time
+           1.36   data required time
+---------------------------------------------------------
+           1.36   data required time
+          -1.54   data arrival time
+---------------------------------------------------------
+           0.18   slack (MET)
+
+
+Startpoint: reset_n (input port clocked by clk)
+Endpoint: bus_inst/_299_ (recovery check against rising-edge clock clk)
+Path Group: asynchronous
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk (rise edge)
+   0.00    0.00   clock network delay (propagated)
+   4.00    4.00 ^ input external delay
+   0.42    4.42 ^ reset_n (in)
+   0.00    4.42 ^ bus_inst/_299_/RESET_B (sky130_fd_sc_hd__dfrtp_2)
+           4.42   data arrival time
+
+  20.00   20.00   clock clk (rise edge)
+   1.15   21.15   clock network delay (propagated)
+  -0.25   20.90   clock uncertainty
+   0.00   20.90   clock reconvergence pessimism
+          20.90 ^ bus_inst/_299_/CLK (sky130_fd_sc_hd__dfrtp_2)
+   0.01   20.91   library recovery time
+          20.91   data required time
+---------------------------------------------------------
+          20.91   data required time
+          -4.42   data arrival time
+---------------------------------------------------------
+          16.49   slack (MET)
+
+
+Startpoint: reset_n (input port clocked by clk)
+Endpoint: bus_inst/_300_ (recovery check against rising-edge clock clk)
+Path Group: asynchronous
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk (rise edge)
+   0.00    0.00   clock network delay (propagated)
+   4.00    4.00 ^ input external delay
+   0.42    4.42 ^ reset_n (in)
+   0.00    4.42 ^ bus_inst/_300_/RESET_B (sky130_fd_sc_hd__dfrtp_2)
+           4.42   data arrival time
+
+  20.00   20.00   clock clk (rise edge)
+   1.15   21.15   clock network delay (propagated)
+  -0.25   20.90   clock uncertainty
+   0.00   20.90   clock reconvergence pessimism
+          20.90 ^ bus_inst/_300_/CLK (sky130_fd_sc_hd__dfrtp_2)
+   0.02   20.92   library recovery time
+          20.92   data required time
+---------------------------------------------------------
+          20.92   data required time
+          -4.42   data arrival time
+---------------------------------------------------------
+          16.50   slack (MET)
+
+
+Startpoint: dmem_inst/sram_macro
+            (falling edge-triggered flip-flop clocked by clk)
+Endpoint: cpu_inst/_15017_ (rising edge-triggered flip-flop clocked by clk)
+Path Group: clk
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+  10.00   10.00   clock clk (fall edge)
+   1.19   11.19   clock network delay (propagated)
+   0.00   11.19 v dmem_inst/sram_macro/clk0 (sky130_sram_1kbyte_1rw1r_32x256_8)
+   0.35   11.54 v dmem_inst/sram_macro/dout0[31] (sky130_sram_1kbyte_1rw1r_32x256_8)
+   0.04   11.58 ^ bus_inst/_291_/Y (sky130_fd_sc_hd__nand2_1)
+   0.11   11.69 v bus_inst/_293_/Y (sky130_fd_sc_hd__o21ai_1)
+   0.22   11.91 v wire71/X (sky130_fd_sc_hd__buf_4)
+   0.50   12.41 v bus_inst/_294_/X (sky130_fd_sc_hd__mux2_1)
+   0.41   12.82 ^ cpu_inst/_08063_/Y (sky130_fd_sc_hd__mux2i_1)
+   0.21   13.03 v cpu_inst/_08064_/Y (sky130_fd_sc_hd__clkinv_1)
+   0.79   13.82 ^ cpu_inst/_08065_/Y (sky130_fd_sc_hd__nor3_1)
+   0.29   14.12 ^ cpu_inst/_08074_/X (sky130_fd_sc_hd__and3_1)
+   0.75   14.87 v cpu_inst/_08075_/Y (sky130_fd_sc_hd__nand4_1)
+   0.35   15.22 ^ cpu_inst/_14467_/Y (sky130_fd_sc_hd__nand2_1)
+   0.26   15.47 v cpu_inst/_14521_/Y (sky130_fd_sc_hd__a31oi_1)
+   0.26   15.73 ^ cpu_inst/_14757_/Y (sky130_fd_sc_hd__nor2_1)
+   0.00   15.73 ^ cpu_inst/_15017_/D (sky130_fd_sc_hd__dfxtp_2)
+          15.73   data arrival time
+
+  20.00   20.00   clock clk (rise edge)
+   1.15   21.15   clock network delay (propagated)
+  -0.25   20.90   clock uncertainty
+   0.00   20.90   clock reconvergence pessimism
+          20.90 ^ cpu_inst/_15017_/CLK (sky130_fd_sc_hd__dfxtp_2)
+  -0.08   20.82   library setup time
+          20.82   data required time
+---------------------------------------------------------
+          20.82   data required time
+         -15.73   data arrival time
+---------------------------------------------------------
+           5.09   slack (MET)
+
+
+Startpoint: dmem_inst/sram_macro
+            (falling edge-triggered flip-flop clocked by clk)
+Endpoint: cpu_inst/_15018_ (rising edge-triggered flip-flop clocked by clk)
+Path Group: clk
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+  10.00   10.00   clock clk (fall edge)
+   1.19   11.19   clock network delay (propagated)
+   0.00   11.19 v dmem_inst/sram_macro/clk0 (sky130_sram_1kbyte_1rw1r_32x256_8)
+   0.35   11.54 v dmem_inst/sram_macro/dout0[31] (sky130_sram_1kbyte_1rw1r_32x256_8)
+   0.04   11.58 ^ bus_inst/_291_/Y (sky130_fd_sc_hd__nand2_1)
+   0.11   11.69 v bus_inst/_293_/Y (sky130_fd_sc_hd__o21ai_1)
+   0.22   11.91 v wire71/X (sky130_fd_sc_hd__buf_4)
+   0.50   12.41 v bus_inst/_294_/X (sky130_fd_sc_hd__mux2_1)
+   0.41   12.82 ^ cpu_inst/_08063_/Y (sky130_fd_sc_hd__mux2i_1)
+   0.21   13.03 v cpu_inst/_08064_/Y (sky130_fd_sc_hd__clkinv_1)
+   0.79   13.82 ^ cpu_inst/_08065_/Y (sky130_fd_sc_hd__nor3_1)
+   0.29   14.12 ^ cpu_inst/_08074_/X (sky130_fd_sc_hd__and3_1)
+   0.75   14.87 v cpu_inst/_08075_/Y (sky130_fd_sc_hd__nand4_1)
+   0.35   15.22 ^ cpu_inst/_14467_/Y (sky130_fd_sc_hd__nand2_1)
+   0.26   15.47 v cpu_inst/_14521_/Y (sky130_fd_sc_hd__a31oi_1)
+   0.22   15.70 ^ cpu_inst/_14523_/Y (sky130_fd_sc_hd__nor2_1)
+   0.00   15.70 ^ cpu_inst/_15018_/D (sky130_fd_sc_hd__dfxtp_1)
+          15.70   data arrival time
+
+  20.00   20.00   clock clk (rise edge)
+   1.15   21.15   clock network delay (propagated)
+  -0.25   20.90   clock uncertainty
+   0.00   20.90   clock reconvergence pessimism
+          20.90 ^ cpu_inst/_15018_/CLK (sky130_fd_sc_hd__dfxtp_1)
+  -0.07   20.83   library setup time
+          20.83   data required time
+---------------------------------------------------------
+          20.83   data required time
+         -15.70   data arrival time
+---------------------------------------------------------
+           5.14   slack (MET)
+
+
+Startpoint: cpu_inst/_16229_ (rising edge-triggered flip-flop clocked by clk)
+Endpoint: cpu_inst/_16153_ (rising edge-triggered flip-flop clocked by clk)
+Path Group: clk
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk (rise edge)
+   1.15    1.15   clock network delay (propagated)
+   0.00    1.15 ^ cpu_inst/_16229_/CLK (sky130_fd_sc_hd__dfxtp_1)
+   0.64    1.79 ^ cpu_inst/_16229_/Q (sky130_fd_sc_hd__dfxtp_1)
+   0.28    2.07 v cpu_inst/_08316_/X (sky130_fd_sc_hd__lpflow_isobufsrc_1)
+   0.89    2.96 ^ cpu_inst/_08320_/Y (sky130_fd_sc_hd__nor4_2)
+   0.80    3.76 v cpu_inst/_08336_/Y (sky130_fd_sc_hd__nand4_1)
+   0.48    4.24 v cpu_inst/_08359_/X (sky130_fd_sc_hd__o211a_1)
+   0.23    4.48 ^ cpu_inst/_10688_/Y (sky130_fd_sc_hd__nor4_2)
+   0.23    4.71 ^ wire104/X (sky130_fd_sc_hd__buf_4)
+   0.29    5.00 v cpu_inst/_10690_/Y (sky130_fd_sc_hd__nand4_1)
+   0.73    5.72 ^ cpu_inst/_10692_/Y (sky130_fd_sc_hd__nor4_1)
+   0.42    6.15 v cpu_inst/_10694_/Y (sky130_fd_sc_hd__nand4_1)
+   0.64    6.79 ^ cpu_inst/_10697_/Y (sky130_fd_sc_hd__nor4_1)
+   0.32    7.11 v cpu_inst/_10700_/Y (sky130_fd_sc_hd__nand4_1)
+   0.55    7.66 ^ cpu_inst/_10702_/Y (sky130_fd_sc_hd__nor4_1)
+   0.29    7.96 v cpu_inst/_10704_/Y (sky130_fd_sc_hd__nand4_1)
+   0.57    8.53 ^ cpu_inst/_10706_/Y (sky130_fd_sc_hd__nor4_1)
+   0.33    8.86 v cpu_inst/_10709_/Y (sky130_fd_sc_hd__nand4_1)
+   0.67    9.53 ^ cpu_inst/_10711_/Y (sky130_fd_sc_hd__nor4_1)
+   0.73   10.26 v cpu_inst/_10713_/Y (sky130_fd_sc_hd__nand4_1)
+   0.92   11.17 ^ cpu_inst/_10716_/Y (sky130_fd_sc_hd__nor4_1)
+   0.35   11.52 v cpu_inst/_10719_/Y (sky130_fd_sc_hd__nand4_1)
+   0.37   11.89 ^ cpu_inst/_10720_/Y (sky130_fd_sc_hd__nor2_1)
+   0.38   12.27 ^ cpu_inst/_10722_/X (sky130_fd_sc_hd__and4_1)
+   0.35   12.62 ^ cpu_inst/_10725_/X (sky130_fd_sc_hd__and4_1)
+   0.13   12.75 v cpu_inst/_10726_/Y (sky130_fd_sc_hd__nand3_1)
+   0.33   13.09 ^ cpu_inst/_10727_/X (sky130_fd_sc_hd__lpflow_isobufsrc_1)
+   0.15   13.24 v cpu_inst/_10729_/Y (sky130_fd_sc_hd__nand3_1)
+   0.34   13.58 ^ cpu_inst/_10730_/X (sky130_fd_sc_hd__lpflow_isobufsrc_1)
+   0.16   13.74 v cpu_inst/_10732_/Y (sky130_fd_sc_hd__nand3_1)
+   0.35   14.09 ^ cpu_inst/_10733_/X (sky130_fd_sc_hd__lpflow_isobufsrc_1)
+   0.15   14.24 v cpu_inst/_10735_/Y (sky130_fd_sc_hd__nand3_1)
+   0.35   14.59 ^ cpu_inst/_10736_/X (sky130_fd_sc_hd__lpflow_isobufsrc_1)
+   0.15   14.74 v cpu_inst/_10738_/Y (sky130_fd_sc_hd__nand3_1)
+   0.33   15.06 ^ cpu_inst/_10739_/X (sky130_fd_sc_hd__lpflow_isobufsrc_1)
+   0.16   15.23 v cpu_inst/_10741_/Y (sky130_fd_sc_hd__nand3_1)
+   0.15   15.38 ^ cpu_inst/_14513_/X (sky130_fd_sc_hd__xor2_1)
+   0.05   15.43 v cpu_inst/_14514_/Y (sky130_fd_sc_hd__nor2_1)
+   0.00   15.43 v cpu_inst/_16153_/D (sky130_fd_sc_hd__dfxtp_1)
+          15.43   data arrival time
+
+  20.00   20.00   clock clk (rise edge)
+   1.12   21.12   clock network delay (propagated)
+  -0.25   20.87   clock uncertainty
+   0.00   20.87   clock reconvergence pessimism
+          20.87 ^ cpu_inst/_16153_/CLK (sky130_fd_sc_hd__dfxtp_1)
+  -0.11   20.75   library setup time
+          20.75   data required time
+---------------------------------------------------------
+          20.75   data required time
+         -15.43   data arrival time
+---------------------------------------------------------
+           5.33   slack (MET)
+
+
+Startpoint: cpu_inst/_16229_ (rising edge-triggered flip-flop clocked by clk)
+Endpoint: cpu_inst/_16152_ (rising edge-triggered flip-flop clocked by clk)
+Path Group: clk
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk (rise edge)
+   1.15    1.15   clock network delay (propagated)
+   0.00    1.15 ^ cpu_inst/_16229_/CLK (sky130_fd_sc_hd__dfxtp_1)
+   0.64    1.79 ^ cpu_inst/_16229_/Q (sky130_fd_sc_hd__dfxtp_1)
+   0.28    2.07 v cpu_inst/_08316_/X (sky130_fd_sc_hd__lpflow_isobufsrc_1)
+   0.89    2.96 ^ cpu_inst/_08320_/Y (sky130_fd_sc_hd__nor4_2)
+   0.80    3.76 v cpu_inst/_08336_/Y (sky130_fd_sc_hd__nand4_1)
+   0.48    4.24 v cpu_inst/_08359_/X (sky130_fd_sc_hd__o211a_1)
+   0.23    4.48 ^ cpu_inst/_10688_/Y (sky130_fd_sc_hd__nor4_2)
+   0.23    4.71 ^ wire104/X (sky130_fd_sc_hd__buf_4)
+   0.29    5.00 v cpu_inst/_10690_/Y (sky130_fd_sc_hd__nand4_1)
+   0.73    5.72 ^ cpu_inst/_10692_/Y (sky130_fd_sc_hd__nor4_1)
+   0.42    6.15 v cpu_inst/_10694_/Y (sky130_fd_sc_hd__nand4_1)
+   0.64    6.79 ^ cpu_inst/_10697_/Y (sky130_fd_sc_hd__nor4_1)
+   0.32    7.11 v cpu_inst/_10700_/Y (sky130_fd_sc_hd__nand4_1)
+   0.55    7.66 ^ cpu_inst/_10702_/Y (sky130_fd_sc_hd__nor4_1)
+   0.29    7.96 v cpu_inst/_10704_/Y (sky130_fd_sc_hd__nand4_1)
+   0.57    8.53 ^ cpu_inst/_10706_/Y (sky130_fd_sc_hd__nor4_1)
+   0.33    8.86 v cpu_inst/_10709_/Y (sky130_fd_sc_hd__nand4_1)
+   0.67    9.53 ^ cpu_inst/_10711_/Y (sky130_fd_sc_hd__nor4_1)
+   0.73   10.26 v cpu_inst/_10713_/Y (sky130_fd_sc_hd__nand4_1)
+   0.92   11.17 ^ cpu_inst/_10716_/Y (sky130_fd_sc_hd__nor4_1)
+   0.35   11.52 v cpu_inst/_10719_/Y (sky130_fd_sc_hd__nand4_1)
+   0.37   11.89 ^ cpu_inst/_10720_/Y (sky130_fd_sc_hd__nor2_1)
+   0.38   12.27 ^ cpu_inst/_10722_/X (sky130_fd_sc_hd__and4_1)
+   0.35   12.62 ^ cpu_inst/_10725_/X (sky130_fd_sc_hd__and4_1)
+   0.13   12.75 v cpu_inst/_10726_/Y (sky130_fd_sc_hd__nand3_1)
+   0.33   13.09 ^ cpu_inst/_10727_/X (sky130_fd_sc_hd__lpflow_isobufsrc_1)
+   0.15   13.24 v cpu_inst/_10729_/Y (sky130_fd_sc_hd__nand3_1)
+   0.34   13.58 ^ cpu_inst/_10730_/X (sky130_fd_sc_hd__lpflow_isobufsrc_1)
+   0.16   13.74 v cpu_inst/_10732_/Y (sky130_fd_sc_hd__nand3_1)
+   0.35   14.09 ^ cpu_inst/_10733_/X (sky130_fd_sc_hd__lpflow_isobufsrc_1)
+   0.15   14.24 v cpu_inst/_10735_/Y (sky130_fd_sc_hd__nand3_1)
+   0.35   14.59 ^ cpu_inst/_10736_/X (sky130_fd_sc_hd__lpflow_isobufsrc_1)
+   0.15   14.74 v cpu_inst/_10738_/Y (sky130_fd_sc_hd__nand3_1)
+   0.33   15.06 ^ cpu_inst/_10739_/X (sky130_fd_sc_hd__lpflow_isobufsrc_1)
+   0.16   15.23 v cpu_inst/_10741_/Y (sky130_fd_sc_hd__nand3_1)
+   0.16   15.39 v cpu_inst/_10743_/Y (sky130_fd_sc_hd__nor3b_1)
+   0.00   15.39 v cpu_inst/_16152_/D (sky130_fd_sc_hd__dfxtp_1)
+          15.39   data arrival time
+
+  20.00   20.00   clock clk (rise edge)
+   1.12   21.12   clock network delay (propagated)
+  -0.25   20.87   clock uncertainty
+   0.00   20.87   clock reconvergence pessimism
+          20.87 ^ cpu_inst/_16152_/CLK (sky130_fd_sc_hd__dfxtp_1)
+  -0.12   20.75   library setup time
+          20.75   data required time
+---------------------------------------------------------
+          20.75   data required time
+         -15.39   data arrival time
+---------------------------------------------------------
+           5.36   slack (MET)
+
+
+Startpoint: dmem_inst/sram_macro
+            (falling edge-triggered flip-flop clocked by clk)
+Endpoint: cpu_inst/_15015_ (rising edge-triggered flip-flop clocked by clk)
+Path Group: clk
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+  10.00   10.00   clock clk (fall edge)
+   1.19   11.19   clock network delay (propagated)
+   0.00   11.19 v dmem_inst/sram_macro/clk0 (sky130_sram_1kbyte_1rw1r_32x256_8)
+   0.35   11.54 v dmem_inst/sram_macro/dout0[31] (sky130_sram_1kbyte_1rw1r_32x256_8)
+   0.04   11.58 ^ bus_inst/_291_/Y (sky130_fd_sc_hd__nand2_1)
+   0.11   11.69 v bus_inst/_293_/Y (sky130_fd_sc_hd__o21ai_1)
+   0.22   11.91 v wire71/X (sky130_fd_sc_hd__buf_4)
+   0.50   12.41 v bus_inst/_294_/X (sky130_fd_sc_hd__mux2_1)
+   0.41   12.82 ^ cpu_inst/_08063_/Y (sky130_fd_sc_hd__mux2i_1)
+   0.21   13.03 v cpu_inst/_08064_/Y (sky130_fd_sc_hd__clkinv_1)
+   0.79   13.82 ^ cpu_inst/_08065_/Y (sky130_fd_sc_hd__nor3_1)
+   0.29   14.12 ^ cpu_inst/_08074_/X (sky130_fd_sc_hd__and3_1)
+   0.75   14.87 v cpu_inst/_08075_/Y (sky130_fd_sc_hd__nand4_1)
+   0.51   15.38 v cpu_inst/_14746_/X (sky130_fd_sc_hd__a22o_1)
+   0.00   15.38 v cpu_inst/_15015_/D (sky130_fd_sc_hd__dfxtp_4)
+          15.38   data arrival time
+
+  20.00   20.00   clock clk (rise edge)
+   1.15   21.15   clock network delay (propagated)
+  -0.25   20.90   clock uncertainty
+   0.00   20.90   clock reconvergence pessimism
+          20.90 ^ cpu_inst/_15015_/CLK (sky130_fd_sc_hd__dfxtp_4)
+  -0.11   20.79   library setup time
+          20.79   data required time
+---------------------------------------------------------
+          20.79   data required time
+         -15.38   data arrival time
+---------------------------------------------------------
+           5.40   slack (MET)
+
+
