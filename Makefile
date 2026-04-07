@@ -42,9 +42,10 @@ physical:
 	$(MAKE) -C $(PD_DIR) pdn
 	$(MAKE) -C $(PD_DIR) placement
 	$(MAKE) -C $(PD_DIR) report
-	$(MAKE) -C $(PD_DIR) sta
 	$(MAKE) -C $(PD_DIR) cts
 	$(MAKE) -C $(PD_DIR) route
+	$(MAKE) -C $(PD_DIR) sta
+	$(MAKE) -C $(PD_DIR) signoff
 
 # 4. Clean up
 clean:

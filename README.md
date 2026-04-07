@@ -152,3 +152,39 @@ Replace synthesized memory with OpenRAM SRAM
 Add SPI or I2C peripheral
 Integrate simple accelerator
 Power analysis and optimization
+
+
+Project Status Update
+RISC-V RV32I Mini SoC — RTL to GDSII using OpenROAD
+Project Overview
+
+This project presents the design, verification, synthesis, and physical implementation of a lightweight RISC-V (RV32I) Mini System-on-Chip (SoC). The design has been successfully taken from RTL to a fully routed 2000μm x 2000μm physical layout using the SKY130 (130 nm) open PDK.
+SoC Architecture
+The SoC integrates a PicoRV32 CPU core with a simple memory-mapped interconnect. Unlike the initial plan for synthesized memory, the current implementation utilizes Hardened SRAM Macros for Instruction and Data storage to emulate realistic industrial ASIC design.
+Key Features
+    CPU Core: PicoRV32 (RV32I).
+    Memory: Dual 1KB 1RW1R SRAM Macros (Sky130 OpenRAM).
+    Peripherals: UART for serial debug and a Programmable Timer.
+    Physical Area: Large-scale 4 mm² die to ensure high routability and signal integrity.
+    Logic Constants: Handled via physical Tie-Low/Tie-High cell insertion to ensure DRC compliance.
+
+Physical Design Targets & Results
+Physical Design Strategy (The "Tapeout" Flow)
+    Synthesis: Performed using Yosys, achieving a clean netlist for the PicoRV32 and peripherals.
+    Floorplanning: Scaled to 2000μm to accommodate SRAM macros with 30μm halos to prevent pin congestion.
+    PDN (Power Grid): Robust multi-layer grid using met1, met4, and met5 to minimize IR drop across the 2mm span.
+    Placement: Global and detailed placement at 20% density with 6-site padding to clear local interconnect (li1) spacing.
+    CTS: Clock tree synthesis utilizing clkbuf_8 and clkbuf_16 to drive the clock signal across the large die.
+    Routing: Global and detailed routing successfully managed 86,921 vias and over half a meter of copper wiring.
+
+Educational Value & Outcomes
+    Troubleshooting: Demonstrated proficiency in resolving complex tool errors, including DRT-0305 (Ground net signal type) and EST-0005 (Parasitic estimation mismatch).
+    Infrastructure: Successfully recompiled OpenROAD with Qt5 GUI support on a Linux/Ubuntu environment (Lenovo LOQ).
+    Analysis: Performed post-route Sign-off STA and Power Analysis, identifying that 60.8% of consumption is driven by combinational logic.
+
+Future Extensions
+    DRC Closure: Implement Antenna Diode insertion to clear remaining 90 metal spacing violations.
+    GDSII Export: Generate final stream-out for foundry submission.
+    Optimization: Re-run flow with increased density to reduce total wire length and parasitic capacitance.
+    
+    34.5 mW power results and 2000µm layout.

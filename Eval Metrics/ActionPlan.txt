@@ -1,222 +1,3 @@
-WEEK 1 — Requirements, Tool Setup & Architecture Freeze
-Goals
-Finalize SoC architecture
-Set up toolchain
-Lock project scope (very important)
-Tasks
-Decide CPU core: PicoRV32 (recommended)
-Freeze memory sizes (16 KB instr + 16 KB data)
-Freeze address map
-Decide clock target: 50 MHz
-Install tools:
-Yosys
-OpenROAD
-OpenLane (if using)
-Icarus / Verilator
-Create Git repository
-Deliverables
-Architecture block diagram
-Memory map table
-Tool versions documented
-Project folder structure
-📌 Professor value: Shows planning & constraint awareness
-
-WEEK 2 — CPU Core Integration (RTL)
-Goals
-Get CPU core running standalone
-Tasks
-Integrate PicoRV32
-Connect clock & reset
-Minimal testbench:
-Clock generation
-Reset sequencing
-Run a simple instruction (NOP loop)
-Deliverables
-cpu_top.v
-Passing RTL simulation
-Screenshot of waveform
-📌 Professor value: CPU bring-up experience
-
-WEEK 3 — Instruction Memory Design
-Goals
-Instruction fetch path works correctly
-Tasks
-Implement 16 KB instruction memory
-Synchronous read
-Address alignment (word addressing)
-Connect CPU instruction bus
-Load program using $readmemh
-Tests
-CPU fetches instructions correctly
-PC increments as expected
-Deliverables
-instr_mem.v
-Test program (assembly + hex)
-📌 Professor value: Harvard architecture justification
-
-WEEK 4 — Data Memory Design
-Goals
-Data read/write path works
-Tasks
-Implement 16 KB data memory
-Handle byte/word accesses
-Connect CPU data bus
-Add write-enable logic
-Tests
-Load/store instructions
-Memory R/W test program
-Deliverables
-data_mem.v
-Memory testbenc
-📌 Professor value: Memory system understanding
-
-WEEK 5 — Interconnect & Address Decoder
-Goals
-Full SoC address map working
-Tasks
-Implement address decode logic
-Route accesses to:
-Instruction memory
-Data memory
-UART
-Timer
-Implement read data mux
-Default error response for invalid addresses
-Deliverables
-interconnect.v
-Address decode logic diagram
-📌 Professor value: Bus architecture & decode logic
-
-WEEK 6 — UART Design & Integration
-Goals
-Serial output from SoC
-Tasks
-Implement UART TX + RX
-Baud rate divider
-Memory-mapped registers:
-DATA
-STATUS
-BAUD
-Connect to interconnect
-Tests
-Program prints "Hello"
-Verify baud timing in simulation
-Deliverables
-uart.v
-UART test waveform
-Terminal output screenshot
-📌 Professor value: Peripheral design + MMIO
-
-WEEK 7 — Timer & Interrupt (Optional but Strong)
-Goals
-Timer functionality (+ optional IRQ)
-Tasks
-Implement 32-bit counter
-Compare register
-Control register
-Optional interrupt output to CPU
-Tests
-Timer increments
-Compare match event
-Optional interrupt handler
-Deliverables
-timer.v
-Timer testbench
-📌 Professor value: SoC extensibility & control logic
-
-WEEK 8 — Full SoC Integration & Verification
-Goals
-Entire SoC runs correctly
-Tasks
-Integrate all blocks into mini_soc_top
-Run full program:
-Memory test
-UART print
-Timer test
-Clean up RTL warnings
-Deliverables
-mini_soc_top.v
-Full SoC testbench
-Simulation logs
-📌 Professor value: System-level verification
-
-WEEK 9 — Synthesis (Yosys)
-Goals
-RTL → gate-level netlist
-Tasks
-Write synthesis script
-Run Yosys
-Check:
-Cell count
-Area
-Estimated timing
-Fix latch/inference issues
-Deliverables
-Synthesized netlist
-Synthesis report
-Area & gate count table
-📌 Professor value: RTL-to-gate understanding
-
-WEEK 10 — Floorplanning, Placement & CTS (OpenROAD)
-Goals
-Physical implementation starts
-Tasks
-Define die & core area
-Set utilization (~55%)
-Place IO pins
-Run placement
-Run CTS
-Analyze:
-Clock skew
-Insertion delay
-Deliverables
-Floorplan screenshot
-CTS report
-Clock tree visualization
-📌 Professor value: Physical design fundamentals
-
-WEEK 11 — Routing, Timing Closure & GDS
-Goals
-Timing-clean final layout
-Tasks
-Global + detailed routing
-Fix setup/hold violations
-Check DRC
-Generate final GDS
-Extract timing (post-route)
-Target Metrics
-Frequency: 50 MHz
-WNS ≥ 0
-TNS = 0
-No DRC errors
-Deliverables
-Final GDS
-Post-route timing report
-Layout screenshots
-📌 Professor value: End-to-end ASIC flow
-
-WEEK 12 — Report, Slides & Viva Preparation
-Goals
-Clearly explain everything you did
-Tasks
-Write report sections:
-Architecture
-RTL design
-Verification
-Physical design
-Timing analysis
-Prepare presentation slides
-Prepare answers for:
-Critical paths
-Clocking decisions
-Memory design
-Area/frequency tradeoffs
-Deliverables
-Final report (PDF)
-Presentation slides
-Backup screenshots/logs
-📌 Professor value: Depth of understanding
-
 Option 3: Direnv (The Professional Choice)
 Many developers use a tool called direnv. It detects when you cd into a specific folder and automatically loads the environment variables for only that project.
     Install it: sudo apt install direnv.
@@ -379,3 +160,62 @@ The synthesis tool tied some unused inputs to a "zero" net, but labeled it as GR
 
 Solving the Congestion (GRT-0116)
 Your design is "congested," meaning there are too many wires trying to pass through the same narrow corridors (likely around your SRAM macro or the CPU's dense logic). Even though it's moving to detailed routing, a congested global route usually leads to thousands of DRC violations that never resolve.
+
+EXISTANCE OF "floorplan.tcl"
+That is a classic "architectural" question in Physical Design. The short answer is: No, it isn't strictly necessary, but it is highly recommended for "Tapeout-Ready" organization.
+
+Why it feels redundant
+You are right—since your run_flow.sh is already calling openroad and passing a "Here Document" (the <<EOF block), you are essentially writing a Tcl script inside a Bash script.
+    If you keep the logic in run_flow.sh: It’s easier to see the whole flow in one file.
+    If you use pd/floorplan.tcl: You keep the Bash script "clean" and treat the Tcl file as a modular configuration.
+
+##ROUTING
+4. Technical Tip: The "Large Net" optimization
+The tool warned you about reset_n and several cpu_inst nets. These are acting like massive "webs" over your design.
+If the density tweak doesn't work, we can manually add buffers to the reset net in your Verilog or use the buffer_ports command in OpenROAD to break that 188-pin net into smaller, more manageable groups.
+
+4. Why 1500um is "Lying" to you
+Your log showed:
+    Core area: 2184955.546 um^2
+    Utilization: 5.642 %
+Even with this massive space, if the Global Placer (GPL) puts all 9,234 cells in a tiny 200x200 square in the middle, your Local Density is actually 80-90%, even if your Global Density is 5%.
+
+[ERROR GRT-0116] Global routing finished with congestion. Check the congestion regions in the DRC Viewer
+The cause of the failure seems to be a dense blob of cells in the middle of the design (in the image, Routing Congestion heat map for 5_1_grt-failed.odb):
+
+Metric,Value
+Total Components,"362,457"
+Total Internal Wiring,552.88 mm
+Via Count,"86,921"
+Total Power Consumption,34.5 mW
+Logic/Combinational Power,21.0 mW (60.8%)
+Memory/Macro Power,1.96 mW (5.7%)
+
+https://github.com/The-OpenROAD-Project/OpenROAD/issues/9542
+
+#####
+Your flow is correct.
+If you want to reduce clock power:
+
+Restrict CTS buffer sizes
+
+Relax skew target slightly
+
+Use clock gating (biggest gain)
+
+Increase utilization moderately
+#####
+
+*Also, snap dmem to the site grid.** Your placement site is `unithd` which has a width of 0.46 µm and height of 2.72 µm. The location `{80 100}` doesn't snap cleanly. Use:
+```
+X: ceil(80 / 0.46)  * 0.46  = 80.04  → use 80.04
+Y: ceil(100 / 2.72) * 2.72  = 100.64 → use 100.64
+So:	
+
+DRT-0073 "No access point" fires during the pin access analysis phase, which happens before detailed routing starts. This is a pre-routing diagnostic pass where the router surveys all cell pins. These cells (all the wire*, load_slew*, max_cap* buffers inserted by repair_timing and repair_design during CTS) have their input pins temporarily inaccessible because:
+
+They're densely packed after CTS added ~hundreds of new buffers
+The li1/met1 routing over PDN stripes blocks some access directions initially
+The detailed router resolves these during its iterative passes by finding alternate access directions
+
+If routed.def exists and tail shows tns max 0.00 / wns max 0.00, you're done and ready for signoff. The DRT-0073 block is a known cosmetic issue with this version of OpenROAD when CTS adds many repair buffers into a congested placement.

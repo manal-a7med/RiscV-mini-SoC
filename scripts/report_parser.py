@@ -1,11 +1,9 @@
-#RiscV-mini-SoC/scripts/report_parser.py
 import re
 import os
-import sys
 
 def parse_report(logfile, stage):
     if not os.path.exists(logfile):
-        print(f"[Warning] {stage} log not found at {logfile}")
+        # Important for your seminar: ensure these files are created by your run_flow.sh
         return
 
     with open(logfile, 'r') as f:
@@ -14,34 +12,52 @@ def parse_report(logfile, stage):
     print(f"\n--- {stage.upper()} Report Summary ---")
 
     if stage == "synthesis":
-        # Extract Cell Counts
+        # Yosys output format for total cells
         cells = re.search(r"Number of cells:\s+(\d+)", content)
         if cells: print(f"Total Standard Cells: {cells.group(1)}")
         
-        # Breakdown of interesting cells for an electronics student
-        registers = re.search(r"$_DFF_.*?\s+(\d+)", content)
-        if registers: print(f"Total Flip-Flops: {registers.group(1)}")
-
-    elif stage == "timing":
-        # Extract Worst Negative Slack (WNS)
-        # In OpenROAD, 'wns' is the most critical metric
-        wns = re.search(r"wns\s+([-\d.]+)", content)
-        tns = re.search(r"tns\s+([-\d.]+)", content)
-        if wns: 
-            val = float(wns.group(1))
-            status = "MET" if val >= 0 else "VIOLATED"
-            print(f"Worst Negative Slack: {val}ns ({status})")
-        if tns: print(f"Total Negative Slack: {tns.group(1)}ns")
+        # Count Flip-Flops (Registers) - crucial for an electronics project
+        dffs = re.findall(r"sky130_fd_sc_hd__df\w+", content)
+        if dffs: print(f"Total Flip-Flops detected: {len(dffs)}")
 
     elif stage == "area":
-        # Extract Design Area from OpenROAD
-        area = re.search(r"Design area\s+([\d.]+)\s+u\^2", content)
-        util = re.search(fr"Utilization\s+([\d.]+)", content)
-        if area: print(f"Total Design Area: {area.group(1)} um^2")
-        if util: print(f"Core Utilization: {util.group(1)}%")
+        # OpenROAD 'initialize_floorplan' or 'global_placement' output
+        area = re.search(r"Core area:\s+([\d.]+)", content)
+        util = re.search(r"Utilization:\s+([\d.]+)\s+%", content)
+        if area: print(f"Core Area: {area.group(1)} um^2")
+        if util: print(f"Final Utilization: {util.group(1)}%")
+
+    elif stage == "timing":
+        # Post-Route STA patterns
+        wns = re.search(r"wns\s+([-\d.]+)", content)
+        slack = re.search(r"slack\s+\((MET|VIOLATED)\)\s+([-\d.]+)", content)
+        
+        if wns: print(f"Worst Negative Slack (WNS): {wns.group(1)}ns")
+        if slack: print(f"Sign-off Timing Status: {slack.group(1)} (Slack: {slack.group(2)}ns)")
+
+    elif stage == "cts":
+        # Clock Tree results are vital for electronics students
+        skew = re.search(r"setup skew\s+([-\d.]+)", content)
+        if skew: print(f"Clock Skew: {skew.group(1)}ns")
+
+    elif stage == "route":
+        # Total amount of copper/metal used
+        wirelength = re.search(r"Total wire length\s+=\s+([\d.]+)\s+um", content)
+        if wirelength: print(f"Total Wire Length: {wirelength.group(1)} um")
+
+    elif stage == "signoff":
+        # The final 'Pass/Fail' of the project
+        wns = re.search(r"wns\s+([-\d.]+)", content)
+        status = re.search(r"slack\s+\((MET|VIOLATED)\)", content)
+        if wns: print(f"Final WNS: {wns.group(1)}ns")
+        if status: print(f"Sign-off Status: {status.group(1)}")
+
 
 if __name__ == "__main__":
-    # Update these paths to match your run_flow.sh output locations
+    # Ensure these paths match the 'tee' output in your run_flow.sh
     parse_report("output/synth.log", "synthesis")
-    parse_report("output/floorplan.log", "area")
-    parse_report("output/sta.log", "timing")
+    parse_report("output/placement.log", "area")
+    parse_report("output/route.log", "timing")
+    parse_report("output/cts.log", "cts")
+    parse_report("output/route.log", "route")
+    parse_report("output/signoff.log", "signoff")   

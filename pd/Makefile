@@ -25,10 +25,6 @@ placement:
 	@echo "Starting Placement..."
 	bash $(FLOW_SCRIPT) --design $(DESIGN_NAME) --step placement | tee output/placement.log
 
-report:	
-	@echo "Analyzing Design Metrics..."
-	python3 $(PROJECT_HOME)/scripts/report_parser.py
-
 sta:
 	@echo "Checking Timing..."
 	bash $(FLOW_SCRIPT) --design $(DESIGN_NAME) --step sta | tee output/sta.log
@@ -40,6 +36,14 @@ cts:
 route:
 	@echo "Routing the MiniSoC..."
 	bash $(FLOW_SCRIPT) --design $(DESIGN_NAME) --step route | tee output/route.log
+
+signoff:
+	@echo "Performing Signoff Checks..."
+	bash $(FLOW_SCRIPT) --design $(DESIGN_NAME) --step signoff | tee output/signoff.log
+
+report:	
+	@echo "Analyzing Design Metrics..."
+	python3 $(PROJECT_HOME)/scripts/report_parser.py
 
 clean:
 	@echo "Cleaning up project files..."

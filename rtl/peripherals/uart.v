@@ -13,13 +13,13 @@ module uart_periph (
     parameter CLK_FREQ = 50000000;
     parameter BAUD     = 115200;
     localparam DIVIDER = CLK_FREQ / BAUD;
-
+    reg baud_restart;
     reg [15:0] baud_counter;
     // Tick should trigger at DIVIDER-1 to maintain correct period
     wire baud_tick = (baud_counter == DIVIDER - 1);
 
     always @(posedge clk) begin
-        if (!reset_n || baud_tick) baud_counter <= 0;
+        if (!reset_n || baud_tick || baud_restart) baud_counter <= 0;
         else                       baud_counter <= baud_counter + 1'b1;
     end
 
@@ -31,6 +31,7 @@ module uart_periph (
     assign ready = !tx_busy; // Ready when not busy
     
     always @(posedge clk) begin
+        baud_restart <= 1'b0; // Default to no restart, set to 1 when we start a new transmission
         if (!reset_n) begin
             tx <= 1'b1;
             tx_state <= 0;
@@ -43,18 +44,22 @@ module uart_periph (
                 tx_state <= 1; 
                 tx <= 0;       // Start bit
                 bit_idx <= 0;
-                baud_counter <= 0; // Reset counter to ensure full start bit width
+                baud_restart <= 1'b1; // Signal restart to reset the counter
             end else if (tx_busy && baud_tick) begin
                 case (tx_state)
                     1: begin 
                         tx <= tx_data[bit_idx];
-                        if (bit_idx == 7) tx_state <= 2;
-                        else              bit_idx  <= bit_idx + 1'b1;
+                        if (bit_idx == 7) begin
+                            tx_state <= 2;
+                        end else begin
+                            bit_idx  <= bit_idx + 1'b1;
+                        end
                     end
                     2: begin 
                         tx <= 1'b1; // Stop bit
                         tx_state <= 0;
                     end
+                    default: tx_state <= 0;
                 endcase
             end
         end

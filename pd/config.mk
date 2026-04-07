@@ -30,6 +30,6 @@ export EXTRA_GDS="${PROJECT_HOME}/macros/sky130_sram_1kbyte_1rw1r_32x256_8.gds"
 
 # Floorplanning
 export CORE_UTILIZATION="40"
-export DIE_AREA="0 0 900 900"
+export DIE_AREA="0 0 1500 1500"
 export PLACE_SITE="unithd"
 export IO_PCT="0.2"

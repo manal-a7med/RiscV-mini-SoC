@@ -4,9 +4,26 @@ sim/sim_out
 
 # Physical Design outputs (These stay local)
 pd/output/
+*.def
+*.odb
+*.log
+*.vcd
+*.ghw
 pd/work/
 *.log
 *.history
+
+# Ignore ALL OpenROAD/Magic intermediate artifacts
+**/pd/*.ext
+**/pd/*.mag
+**/pd/*.nodes
+**/pd/*.res
+**/pd/*.spice
+
+*.ext
+
+**/pd/sky130_sram_*
+**/pd/mini_soc_top.ext
 
 # Software binaries
 #sw/build/

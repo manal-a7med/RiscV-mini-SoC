@@ -42,6 +42,8 @@ yosys splitnets -ports
 yosys setundef -zero
 yosys check
 
+# Map logical 1 and 0 to Sky130 Tie-Hi/Lo cells
+yosys hilomap -hicell sky130_fd_sc_hd__conb_1 HI -locell sky130_fd_sc_hd__conb_1 LO
 
 # 6. Output netlist - This must match what run_flow.sh expects
 # Change this to output/synth.v so floorplan step can find it
