@@ -15,4 +15,6 @@ set macro_halo 20
 set macro_channel_width 20
 
 # Clock Tree Synthesis (CTS) settings
-set cts_buffer "sky130_fd_sc_hd__clkbuf_1"
+set cts_buffer "sky130_fd_sc_hd__clkbuf_16"
+
+#set cts_buf_list "sky130_fd_sc_hd__clkbuf_4 sky130_fd_sc_hd__clkbuf_8 sky130_fd_sc_hd__clkbuf_16"

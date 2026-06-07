@@ -7,10 +7,11 @@
 `define MEM_DATA_BASE   32'h0001_0000
 `define MEM_DATA_LIMIT  32'h0001_03FF
 
+`define STACK_TOP (`MEM_DATA_BASE + 32'h400)
+
 // Peripherals
 `define UART_BASE       32'h1000_0000
 `define TIMER_BASE      32'h1000_1000
 
 // Clock
 `define CPU_FREQ_MHZ    50
-

@@ -11,6 +11,20 @@ The NOWIREEXTENSIONATPIN statement will be ignored. See file /home/manal/OpenROA
 [INFO ODB-0227] LEF file: ../macros/sky130_sram_1kbyte_1rw1r_32x256_8.lef, created 1 library cells
 [WARNING IFP-0028] Core area lower left (30.000, 30.000) snapped to (30.360, 32.640).
 [INFO IFP-0001] Added 528 rows of 3129 site unithd.
+Die Area: (0.00, 0.00) (1500.00, 1500.00),  Floorplan Area: (30.36, 32.64) (1469.70, 1468.80)
+	Number of std cell instances: 10272
+	Area of std cell instances: 95773.10
+	Number of macros: 2
+	Area of macros: 381425.10
+	Halo width: 20.00
+	Halo height: 20.00
+	Area of macros with halos: 454807.50
+	Area of std cell instances + Area of macros: 477198.20
+	Floorplan area: 2067122.53
+	Design Utilization: 0.23
+	Floorplan Utilization: 0.06
+	Manufacturing Grid: 5
+
 [WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/addr1[7] from layer met4 to the track-grid.
 [WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/addr1[6] from layer met4 to the track-grid.
 [WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/addr1[5] from layer met4 to the track-grid.
@@ -106,7 +120,6 @@ The NOWIREEXTENSIONATPIN statement will be ignored. See file /home/manal/OpenROA
 [WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/wmask0[1] from layer met4 to the track-grid.
 [WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/wmask0[0] from layer met4 to the track-grid.
 [WARNING MPL-0002] Couldn't align pin dmem_inst/sram_macro/addr0[0] from layer met4 to the track-grid.
-[INFO MPL-0035] Macro dmem_inst/sram_macro placed. Bounding box (80.790um, 100.790um), (560.570um, 498.290um). Orientation MY
 [WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/addr1[7] from layer met4 to the track-grid.
 [WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/addr1[6] from layer met4 to the track-grid.
 [WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/addr1[5] from layer met4 to the track-grid.
@@ -202,7 +215,6 @@ The NOWIREEXTENSIONATPIN statement will be ignored. See file /home/manal/OpenROA
 [WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/wmask0[1] from layer met4 to the track-grid.
 [WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/wmask0[0] from layer met4 to the track-grid.
 [WARNING MPL-0002] Couldn't align pin imem_inst/sram_macro/addr0[0] from layer met4 to the track-grid.
-[INFO MPL-0035] Macro imem_inst/sram_macro placed. Bounding box (80.790um, 952.150um), (560.570um, 1349.650um). Orientation MY
 [INFO PPL-0070] Pin clk placed at (0.40um, 999.94um) instead of (0.00um, 1000.00um). Pin was snapped to a routing track, to the manufacturing grid or moved away from blocked region.
 [INFO PPL-0070] Pin reset_n placed at (0.40um, 1099.90um) instead of (0.00um, 1100.00um). Pin was snapped to a routing track, to the manufacturing grid or moved away from blocked region.
 Found 2 macro blocks.
@@ -213,4 +225,4 @@ Using 2 tracks default min distance between IO pins.
 [INFO PPL-0004] Number of I/O w/o sink    1
 [INFO PPL-0005] Slots per section         200
 [INFO PPL-0008] Successfully assigned pins to sections.
-[INFO PPL-0012] I/O nets HPWL: 1501.36 um.
+[INFO PPL-0012] I/O nets HPWL: 920.98 um.

@@ -18,7 +18,6 @@ set_output_delay -clock [get_clocks {clk}] 4.0000 [get_ports {trap}]
 set_load 0.0334 [all_outputs]
 
 # Avoid buffering the reset net too much initially
-set_drive 0.1 [all_inputs]
-set_load  0.1 [all_outputs]
+set_drive 0.1 [all_inputs]  
 
 

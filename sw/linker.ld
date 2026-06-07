@@ -23,6 +23,11 @@ SECTIONS
         *(.data*)
     } > RAM AT > FLASH
 
+/* # The .bss section is for uninitialized data. It should be placed in RAM, but it doesn't need to be stored in the binary since it will be zero-initialized at runtime.
+# AT > FLASH CAN BE REMOVED AS I have no ROM/RAM split in a simulation-only flow.
+# note : The linker.ld .data VMA/LMA split requires a startup copy loop that boot.S doesn't have — harmless now but 
+will silently break any future global variable initialisation */
+
     .bss : {
         *(.bss*)
         *(COMMON)

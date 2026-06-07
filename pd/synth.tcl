@@ -17,12 +17,11 @@ yosys read_verilog -sv -I/home/manal/projects/RiscV-mini-SoC/rtl/include \
     ../rtl/top/mini_soc_top.v
 
 # IMPORTANT: Tell Yosys the SRAM is a blackbox
-yosys hierarchy -check -top mini_soc_top -check
-
 yosys read_liberty -lib ../macros/sky130_sram_1kbyte_1rw1r_32x256_8_TT_1p8V_25C.lib
 
 yosys blackbox sky130_sram_1kbyte_1rw1r_32x256_8
 
+yosys hierarchy -check -top mini_soc_top
 #yosys read_lef ../macros/sky130_sram_1kbyte_1rw1r_32x256_8.lef
 
 

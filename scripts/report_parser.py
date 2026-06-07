@@ -22,7 +22,7 @@ def parse_report(logfile, stage):
 
     elif stage == "area":
         # OpenROAD 'initialize_floorplan' or 'global_placement' output
-        area = re.search(r"Core area:\s+([\d.]+)", content)
+        area = re.search(r"Design area\s+([\d.]+)\s+u\^2\s+([\d.]+)%", content)
         util = re.search(r"Utilization:\s+([\d.]+)\s+%", content)
         if area: print(f"Core Area: {area.group(1)} um^2")
         if util: print(f"Final Utilization: {util.group(1)}%")
@@ -30,9 +30,11 @@ def parse_report(logfile, stage):
     elif stage == "timing":
         # Post-Route STA patterns
         wns = re.search(r"wns\s+([-\d.]+)", content)
+        tns = re.search(r"tns\s+([-\d.]+)", content)
         slack = re.search(r"slack\s+\((MET|VIOLATED)\)\s+([-\d.]+)", content)
         
         if wns: print(f"Worst Negative Slack (WNS): {wns.group(1)}ns")
+        if tns: print(f"Total Negative Slack (TNS): {tns.group(1)}ns")
         if slack: print(f"Sign-off Timing Status: {slack.group(1)} (Slack: {slack.group(2)}ns)")
 
     elif stage == "cts":

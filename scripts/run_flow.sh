@@ -13,7 +13,6 @@ while [[ "$#" -gt 0 ]]; do
     esac
     shift
 done
-
 case $STEP in
     synth)
         echo "Running Yosys Synthesis for $DESIGN_NAME..."
@@ -56,14 +55,15 @@ make_tracks met3 -x_offset 0.34 -x_pitch 0.68 -y_offset 0.34 -y_pitch 0.68
 make_tracks met4 -x_offset 0.46 -x_pitch 0.92 -y_offset 0.46 -y_pitch 0.92
 make_tracks met5 -x_offset 1.70 -x_pitch 3.40 -y_offset 1.70 -y_pitch 3.40
 
+
 # 4. PLACE THE MACROS (Otherwise they stay at 0,0)
 
 #place_macro -macro_name imem_inst/sram_macro -location {100 100} -orientation R0 -exact
 #place_macro -macro_name dmem_inst/sram_macro -location {1400 100} -orientation R0 -exact
 
 # Replace manual place_macro commands with this:
-#rtl_macro_placer -max_num_macro 2 -min_num_macro 1 -halo_width 20 -halo_height 20 -target_util 0.40 -report_directory output/rtlmp_reports -write_macro_placement output/rtlmp_reports/macro_placement.tcl
-source output/rtlmp_reports/macro_placement.tcl
+rtl_macro_placer -max_num_macro 2 -min_num_macro 1 -halo_width 20 -halo_height 20 -target_util 0.40 -report_directory output/rtlmp_reports -write_macro_placement output/rtlmp_reports/macro_placement.tcl
+# source output/rtlmp_reports/macro_placement.tcl
 
 # 6. Pin Placement
 # Since -config/-cfg failed, we follow the doc's tip: 
@@ -71,7 +71,10 @@ source output/rtlmp_reports/macro_placement.tcl
 place_pin -pin_name clk -layer met3 -location {0 1000} -force_to_die_boundary
 place_pin -pin_name reset_n -layer met3 -location {0 1100} -force_to_die_boundary
 
-# Randomly place the remaining pins (UART, Trap) on specified layers
+set_io_pin_constraint -direction WEST  -pin_names {clk reset_n}
+set_io_pin_constraint -direction NORTH -pin_names {trap}
+set_io_pin_constraint -direction SOUTH -pin_names {uart_tx uart_rx}
+
 place_pins -hor_layers met3 -ver_layers met2
 
 write_def output/floorplan.def
@@ -102,21 +105,21 @@ set_voltage_domain -name CORE -power VDD -ground VSS
 # 3. Define the Grid
 # Met1 rails provide power to every single row of standard cells
 define_pdn_grid -name stdcell_grid -starts_with POWER
-add_pdn_stripe -grid stdcell_grid -layer met1 -width 0.48 -pitch 5.44 -offset 0
+add_pdn_stripe -grid stdcell_grid -layer met1 -width 0.48 -pitch 5.44 -offset 20
 
 # Met4 stripes provide the "backbone" of the power
-# We use a 27.2 pitch to ensure a strap lands near or over the macros
-add_pdn_stripe -grid stdcell_grid -layer met4 -width 1.6 -pitch 40 -offset 20
+add_pdn_stripe -grid stdcell_grid -layer met4 -width 1.6 -pitch 40 -offset 40
 
 # Met5: Global Horizontal "Highways" (Critical for 2000um span)
 # These carry the bulk of the current from the chip edges
-add_pdn_stripe -grid stdcell_grid -layer met5 -width 2.4 -pitch 60 -offset 30.0
+add_pdn_stripe -grid stdcell_grid -layer met5 -width 2.4 -pitch 60 -offset 50.0
 
-add_pdn_ring -grid stdcell_grid -layers {met4 met5} -widths {3 3} -spacings {1.6 1.6} -core_offsets {10 10}
+add_pdn_ring -grid stdcell_grid -layers {met4 met5} -widths {3 3} -spacings {1.6 1.6} -core_offsets {20 20}
 
 # 4. CONNECT THE LAYERS (Crucial for a working chip)
 # This drops vias between met1 and met4
 add_pdn_connect -grid stdcell_grid -layers {met1 met4}
+
 # Connect met4 vertical stripes to met5 horizontal highways
 add_pdn_connect -grid stdcell_grid -layers {met4 met5}
 
@@ -140,14 +143,11 @@ read_def output/pdn.def
 
 #place_macro -macro_name {dmem_inst/sram_macro} -location {80.04 1000.64} -orientation MY
 #place_macro -macro_name {imem_inst/sram_macro} -location {80.04 80.64} -orientation MY
-#set_macro_halo -inst imem_inst/sram_macro -halo {10 10 10 10}
-#set_macro_halo -inst dmem_inst/sram_macro -halo {10 10 10 10}
-#source output/rtlmp_reports/macro_placement.tcl
+
 
 # 4. Execute Global Placement
 global_placement -density 0.10 -pad_left 2 -pad_right 2
 
-#set_placement_padding -masters "sky130_fd_sc_hd__*" -left 2 -right 2
 
 # 1. Insert Tie-Cells (This replaces 'zero_' with real cells)
 insert_tiecells sky130_fd_sc_hd__conb_1/HI -prefix "TIE_HIGH_"
@@ -232,7 +232,7 @@ read_lef ../macros/sky130_sram_1kbyte_1rw1r_32x256_8.lef
 read_liberty /home/manal/OpenROAD/test/sky130hd/sky130_fd_sc_hd__tt_025C_1v80.lib
 read_liberty ../macros/sky130_sram_1kbyte_1rw1r_32x256_8_TT_1p8V_25C.lib
 read_def output/cts.def
-read_sdc constraints.sdc
+read_sdc ../pd/constraints.sdc
 
 set_wire_rc -signal -layer met2
 set_wire_rc -clock  -layer met3

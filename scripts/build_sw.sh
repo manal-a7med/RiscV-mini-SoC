@@ -7,7 +7,7 @@ CC="${PREFIX}gcc"
 OBJCOPY="${PREFIX}objcopy"
 
 # Target file
-SOURCE="../sw/hello.c"
+SOURCE="../sw/hello_world.c"
 BUILD_DIR="../sw/build"
 mkdir -p $BUILD_DIR
 
